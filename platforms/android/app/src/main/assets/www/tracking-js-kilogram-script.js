@@ -90,7 +90,7 @@ function tracking_start() {
     rect.style.border = "2px solid " + color;
     rect.style.width = w + "px";
     rect.style.height = h + "px";
-	  rect.style.fontSize = "15px";
+    rect.style.fontSize = "15px";
     rect.style.left = exam.offsetLeft + x + "px";
     rect.style.top = exam.offsetTop + y + "px";
   }
