@@ -26,9 +26,19 @@ var app = {
     //
     // Bind any cordova events here. Common events are:
     // 'pause', 'resume', etc.
-    onDeviceReady: function() {
-    	navigator.camera.getPicture((img) => {document.getElementById("exam").src = img}, (err) => {null});
+    onDeviceReady: async function() {
+	CameraPreview.startCamera(null, () => CameraPreview.stopCamera(() => CameraPreview.hide(app.startCamera())))
     },
+
+	startCamera() {
+		const constraints = {
+			video: true
+		}
+		navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment", height: 310, width: 500}}).then((stream) => {
+			player.srcObject = stream;
+		});
+	},
+
 };
 
 app.initialize();

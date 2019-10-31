@@ -7,10 +7,10 @@
     "files": {}
   },
   "installed_plugins": {
-    "cordova-plugin-camera": {
+    "cordova-plugin-whitelist": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
-    "cordova-plugin-whitelist": {
+    "cordova-plugin-camera-preview": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     }
   },

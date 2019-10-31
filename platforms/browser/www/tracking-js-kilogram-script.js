@@ -1,5 +1,5 @@
 function tracking_start() {
-  const exam = document.querySelector("#exam");
+  const exam = document.querySelector("player");
   const container = document.querySelector(".container");
   const answer = [null, "A", "B", "C", "D", "E"];
   const question_multipler = 5;

@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<title>Kilogram Exam</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
 		<script src="tracking-min.js"></script>
 		<script src="tracking-js-kilogram-script.js"></script>
 		<style>
@@ -10,18 +10,26 @@
 				position: absolute;
 			}
 			body {
-				background-color: #CCC;
+				background-color: black;
 				margin: 0;
+			}
+			html, body {
+				height: 100%;
+				width: 100%;
+			}
+			video, canvas {
+				position: absolute;
+			}
+			canvas {
+				background-color: rgba(255, 255, 255, 0.1);
 			}
 		</style>
 	</head>
 	<body onload="tracking_start()">
-		<center>
-			<div class="container">
-				<span id="camera">Loading Camera</span>
-				<img id="exam" style="width: 100%;" src="exam_4.png">
-			</div>
-		</center>
+		<div class="container">
+			<video id="player" autoplay></video>
+			<canvas id="canvas" width="310" height="500"></canvas>
+		</div>
 	</body>
 	<script src="js/index.js"></script>
 	<script src="cordova.js"></script>

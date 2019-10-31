@@ -1,0 +1,62 @@
+{
+  "_from": "cordova-plugin-camera-preview",
+  "_id": "cordova-plugin-camera-preview@0.11.0",
+  "_inBundle": false,
+  "_integrity": "sha512-n/SGWCkaIHWSYZMpcdf0TE9z4EJkZZKfmcK6VLMR2hQ0Pujss/mEfv9k6HbZbXbvkLcz3l7FCjaXTjtFIeBMFA==",
+  "_location": "/cordova-plugin-camera-preview",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "cordova-plugin-camera-preview",
+    "name": "cordova-plugin-camera-preview",
+    "escapedName": "cordova-plugin-camera-preview",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/cordova-plugin-camera-preview/-/cordova-plugin-camera-preview-0.11.0.tgz",
+  "_shasum": "25810df1ae0e81a26c862c9cba5ebdef02eb6ee0",
+  "_spec": "cordova-plugin-camera-preview",
+  "_where": "/home/littleboy/kilogram-exam-app",
+  "author": {
+    "name": "Weston Ganger",
+    "email": "westonganger@gmail.com",
+    "url": "solidfoundationwebdev.com"
+  },
+  "bugs": {
+    "url": "https://github.com/cordova-plugin-camera-preview/cordova-plugin-camera-preview/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {},
+  "deprecated": false,
+  "description": "Cordova plugin that allows camera interaction from HTML code for showing camera preview below or on top of the HTML.",
+  "devDependencies": {},
+  "homepage": "https://github.com/cordova-plugin-camera-preview/cordova-plugin-camera-preview",
+  "keywords": [
+    "cordova",
+    "phonegap",
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios",
+    "android",
+    "ios",
+    "ionic",
+    "camera",
+    "cam",
+    "camera-preview",
+    "preview"
+  ],
+  "license": "Apache 2.0",
+  "name": "cordova-plugin-camera-preview",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cordova-plugin-camera-preview/cordova-plugin-camera-preview.git"
+  },
+  "typings": "typescript/CameraPreview.d.ts",
+  "version": "0.11.0"
+}
