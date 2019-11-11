@@ -1,12 +1,11 @@
 function tracking_start() {
-  const exam = document.querySelector("#player");
   const canvas = document.getElementById("canvas");
-  const context = canvas.getContext('2d');
+  const context = canvas.getContext("2d");
   const container = document.querySelector(".container");
   const answer = [null, "A", "B", "C", "D", "E"];
   const question_multipler = 5;
   const answer_available = 5;
-  const y_tostartfrom = 30;
+  const y_tostartfrom = 50;
 
   var summary = [];
   var total_mark = 0;
@@ -20,52 +19,40 @@ function tracking_start() {
     return false;
   });
 
-  const tracker = new tracking.ColorTracker(["magenta", "cyan", "yellow"]);
+  const tracker = new tracking.ColorTracker(["black"]);
   tracker.setMinDimension(5);
-  //tracker.on("track", function(event) {
-    //let head_start_pos = 0;
-    //let start = 0;
-    //event.data.forEach(function(rect) {
-      //// Y to start scanning
-      //if (rect.y > y_tostartfrom) {
-        ////First match always be starting position
-        //if (head_start_pos == 0) {
-          //head_start_pos = rect.y;
-        //}
-        //if (rect.y >= head_start_pos - 5 && rect.y <= head_start_pos + 5) {
-          //head_pos.push({
-            //x: rect.x,
-            //y: rect.y,
-            //height: rect.height,
-            //width: rect.width,
-            //start: start
-          //});
-          //start = start + question_multipler;
-        //} else {
-          //total_mark++;
-        //}
-        //plot(rect.x, rect.y, rect.width, rect.height, rect.color);
-      //}
-    //});
-    //console.log("Total mark : " + total_mark);
-  //});
 
-tracker.on('track', function(event) {
-	context.clearRect(0, 0, canvas.width, canvas.height);
-	event.data.forEach(function(rect) {
-	  context.strokeStyle = rect.color;
-	  context.strokeRect(rect.x, rect.y, rect.width, rect.height);
-	  context.font = '11px Helvetica';
-	  context.fillStyle = "#fff";
-	  context.fillText('x: ' + rect.x + 'px', rect.x + rect.width + 5, rect.y + 11);
-	  context.fillText('y: ' + rect.y + 'px', rect.x + rect.width + 5, rect.y + 22);
-	});
-});
+  tracker.on("track", function(event) {
+    let head_start_pos = 0;
+    let start = 0;
+    event.data.forEach(function(rect) {
+      // Y to start scanning
+      if (rect.y > y_tostartfrom) {
+        //First match always be starting position
+        if (head_start_pos == 0) {
+          head_start_pos = rect.y;
+        }
+        if (rect.y >= head_start_pos - 5 && rect.y <= head_start_pos + 5) {
+          head_pos.push({
+            x: rect.x,
+            y: rect.y,
+            height: rect.height,
+            width: rect.width,
+            start: start
+          });
+          start = start + question_multipler;
+        } else {
+          total_mark++;
+        }
+        plot(rect.x, rect.y, rect.width, rect.height, rect.color);
+      }
+    });
+    console.log("Total mark : " + total_mark);
+  });
 
-  tracking.track(exam, tracker);
+  tracking.track(canvas, tracker);
   function plot(x, y, w, h, color) {
-    let rect = document.createElement("div");
-    container.appendChild(rect);
+    let answer_no;
     head_pos.forEach(pos => {
       let answer_holder = { no: null, answer: null };
       if (
@@ -78,7 +65,8 @@ tracker.on('track', function(event) {
           let to_x = pos.x + pos.width * (i + 1);
           let center_x = x + w / 2;
           if (center_x >= from_x && center_x <= to_x) {
-            rect.innerHTML = answer[i];
+            //rect.innerHTML = answer[i];
+            answer_no = answer[i];
             answer_holder.answer = answer[i];
             break;
           }
@@ -89,7 +77,8 @@ tracker.on('track', function(event) {
           let to_y = pos.y + pos.height * (i + 1);
           let center_y = y + h / 2;
           if (center_y >= from_y && center_y <= to_y) {
-            rect.innerHTML = rect.innerHTML + (pos.start + i);
+            //rect.innerHTML = rect.innerHTML + (pos.start + i);
+            answer_no = answer_no + parseInt(pos.start + i);
             answer_holder.no = pos.start + i;
             break;
           }
@@ -99,14 +88,16 @@ tracker.on('track', function(event) {
         }
       }
     });
-    rect.style.color = "red";
-    rect.classList.add("rect");
-    rect.style.border = "2px solid " + color;
-    rect.style.width = w + "px";
-    rect.style.height = h + "px";
-    rect.style.fontSize = "15px";
-    rect.style.left = exam.offsetLeft + x + "px";
-    rect.style.top = exam.offsetTop + y + "px";
+
+    context.strokeStyle = color;
+    context.strokeRect(x, y, w, h);
+    context.font = "11px Helvetica";
+    context.fillStyle = "#f00";
+
+    if (answer_no != undefined) {
+      context.fillText(answer_no, x + w + 5, y + 11);
+    } else {
+      context.fillText("Base box", x + w + 5, y + 11);
+    }
   }
-  console.log(summary);
 }

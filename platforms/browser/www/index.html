@@ -1,42 +1,76 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>Kilogram Exam</title>
-		<meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
-		<script src="tracking-min.js"></script>
-		<script src="tracking-js-kilogram-script.js"></script>
-		<style>
-			.rect {
-				position: absolute;
-			}
-			body {
-				background-color: #CCC;
-				margin: 0;
-			}
-			html, body {
-				height: 100%;
-				width: 100%;
-			}
-			.container {
-				height: 100%;
-				width: 100%;
-			}
-			video, canvas {
-				position: absolute;
-			}
-			canvas {
-				background-color: rgba(255, 255, 255, 0.1);
-			}
-		</style>
-	</head>
-	<body onload="tracking_start()">
-		<center>
-			<div class="container">
-				<video style="width: 100%;" id="player" autoplay></video>
-				<canvas width="100%' id="canvas"></canvas>
-			</div>
-		</center>
-	</body>
-	<script src="js/index.js"></script>
-	<script src="cordova.js"></script>
+  <head>
+    <title>Kilogram Exam</title>
+    <meta
+      name="viewport"
+      content="initial-scale=1, width=device-width, viewport-fit=cover"
+    />
+    <script src="tracking-min.js"></script>
+    <script src="tracking-js-kilogram-script.js"></script>
+    <style>
+      .rect {
+        position: absolute;
+      }
+      body {
+        background-color: black;
+        margin: 0;
+      }
+      html,
+      body {
+        height: 100%;
+        width: 100%;
+      }
+      video,
+      canvas,
+      span {
+        position: absolute;
+      }
+      canvas {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <canvas id="canvas"></canvas>
+      <video
+        onclick="snapshot();"
+        style="display: none;"
+        id="player"
+        autoplay=""
+      ></video>
+    </div>
+    <script type="text/javascript" src="js/document_transform.js"></script>
+    <script
+      async
+      onload="onOpenCvReady();"
+      type="text/javascript"
+      src="js/opencv.js"
+    ></script>
+    <script>
+      var check;
+      function snapshot() {
+        let canvas = document.getElementById("canvas");
+        let context = canvas.getContext("2d");
+        let video = document.getElementById("player");
+
+        context.drawImage(video, 0, 0);
+        transform();
+        tracking_start();
+        video.style.display = "none";
+      }
+
+      function onOpenCvReady() {
+        check = setInterval(() => {
+          if (cv.Mat != undefined) {
+            clearInterval(check);
+            document.getElementById("player").style.display = "block";
+          }
+        }, 1000 / 60);
+      }
+    </script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript" src="cordova.js"></script>
+  </body>
 </html>

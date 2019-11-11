@@ -15,17 +15,22 @@
   "dependencies": {
     "cordova-android": "^8.1.0",
     "cordova-browser": "^6.0.0",
-    "cordova-plugin-camera-preview": "^0.11.0"
+    "cordova-plugin-camera-preview": "^0.11.0",
+    "cordova-plugin-screen-orientation": "^3.0.2",
+    "es6-promise-plugin": "^4.2.2"
   },
   "devDependencies": {
-    "cordova-plugin-whitelist": "^1.3.4"
+    "cordova-plugin-whitelist": "^1.3.4",
+    "eslint": "^6.6.0",
+    "eslint-plugin-react": "^7.16.0"
   },
   "cordova": {
     "plugins": {
       "cordova-plugin-whitelist": {},
       "cordova-plugin-camera-preview": {
         "ANDROID_SUPPORT_LIBRARY_VERSION": "26+"
-      }
+      },
+      "cordova-plugin-screen-orientation": {}
     },
     "platforms": [
       "android",

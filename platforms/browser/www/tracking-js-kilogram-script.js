@@ -1,10 +1,11 @@
 function tracking_start() {
-  const exam = document.querySelector("player");
+  const canvas = document.getElementById("canvas");
+  const context = canvas.getContext("2d");
   const container = document.querySelector(".container");
   const answer = [null, "A", "B", "C", "D", "E"];
   const question_multipler = 5;
   const answer_available = 5;
-  const y_tostartfrom = 30;
+  const y_tostartfrom = 100;
 
   var summary = [];
   var total_mark = 0;
@@ -20,6 +21,7 @@ function tracking_start() {
 
   const tracker = new tracking.ColorTracker(["black"]);
   tracker.setMinDimension(5);
+
   tracker.on("track", function(event) {
     let head_start_pos = 0;
     let start = 0;
@@ -48,10 +50,9 @@ function tracking_start() {
     console.log("Total mark : " + total_mark);
   });
 
-  tracking.track(exam, tracker);
+  tracking.track(canvas, tracker);
   function plot(x, y, w, h, color) {
-    let rect = document.createElement("div");
-    container.appendChild(rect);
+    let answer_no;
     head_pos.forEach(pos => {
       let answer_holder = { no: null, answer: null };
       if (
@@ -64,7 +65,8 @@ function tracking_start() {
           let to_x = pos.x + pos.width * (i + 1);
           let center_x = x + w / 2;
           if (center_x >= from_x && center_x <= to_x) {
-            rect.innerHTML = answer[i];
+            //rect.innerHTML = answer[i];
+            answer_no = answer[i];
             answer_holder.answer = answer[i];
             break;
           }
@@ -75,7 +77,8 @@ function tracking_start() {
           let to_y = pos.y + pos.height * (i + 1);
           let center_y = y + h / 2;
           if (center_y >= from_y && center_y <= to_y) {
-            rect.innerHTML = rect.innerHTML + (pos.start + i);
+            //rect.innerHTML = rect.innerHTML + (pos.start + i);
+            answer_no = answer_no + parseInt(pos.start + i);
             answer_holder.no = pos.start + i;
             break;
           }
@@ -85,14 +88,16 @@ function tracking_start() {
         }
       }
     });
-    rect.style.color = "red";
-    rect.classList.add("rect");
-    rect.style.border = "2px solid " + color;
-    rect.style.width = w + "px";
-    rect.style.height = h + "px";
-    rect.style.fontSize = "15px";
-    rect.style.left = exam.offsetLeft + x + "px";
-    rect.style.top = exam.offsetTop + y + "px";
+
+    context.strokeStyle = color;
+    context.strokeRect(x, y, w, h);
+    context.font = "11px Helvetica";
+    context.fillStyle = "#f00";
+
+    if (answer_no != undefined) {
+      context.fillText(answer_no, x + w + 5, y + 11);
+    } else {
+      context.fillText("Base box", x + w + 5, y + 11);
+    }
   }
-  console.log(summary);
 }
