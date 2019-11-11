@@ -14,7 +14,6 @@
   "license": "Apache-2.0",
   "dependencies": {
     "cordova-android": "^8.1.0",
-    "cordova-browser": "^6.0.0",
     "cordova-plugin-camera-preview": "^0.11.0",
     "cordova-plugin-screen-orientation": "^3.0.2",
     "es6-promise-plugin": "^4.2.2"
@@ -33,8 +32,7 @@
       "cordova-plugin-screen-orientation": {}
     },
     "platforms": [
-      "android",
-      "browser"
+      "android"
     ]
   }
 }
