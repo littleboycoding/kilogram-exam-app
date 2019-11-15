@@ -294,6 +294,7 @@ dependencies {
     // SUB-PROJECT DEPENDENCIES START
     implementation(project(path: ":CordovaLib"))
     implementation "com.android.support:exifinterface:26+"
+    implementation "org.nanohttpd:nanohttpd:+"
     // SUB-PROJECT DEPENDENCIES END
 }
 

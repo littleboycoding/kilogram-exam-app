@@ -29,11 +29,23 @@
       canvas {
         background-color: rgba(255, 255, 255, 0.1);
       }
+      #player {
+        animation: 0.3s fade;
+        opacity: 1;
+      }
+      @keyframes fade {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
     </style>
   </head>
   <body>
     <div class="container">
-      <canvas id="canvas"></canvas>
+      <canvas onclick="close_snapshot();" id="canvas"></canvas>
       <video
         onclick="snapshot();"
         style="display: none;"
@@ -61,13 +73,18 @@
         video.style.display = "none";
       }
 
+      function close_snapshot() {
+        let video = document.getElementById("player");
+        video.style.display = "block";
+      }
+
       function onOpenCvReady() {
         check = setInterval(() => {
           if (cv.Mat != undefined) {
             clearInterval(check);
             document.getElementById("player").style.display = "block";
           }
-        }, 1000 / 60);
+        }, 0.5);
       }
     </script>
     <script type="text/javascript" src="js/index.js"></script>

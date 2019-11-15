@@ -5,7 +5,7 @@ function tracking_start() {
   const answer = [null, "A", "B", "C", "D", "E"];
   const question_multipler = 5;
   const answer_available = 5;
-  const y_tostartfrom = 50;
+  const y_tostartfrom = 60;
 
   var summary = [];
   var total_mark = 0;
@@ -32,7 +32,7 @@ function tracking_start() {
         if (head_start_pos == 0) {
           head_start_pos = rect.y;
         }
-        if (rect.y >= head_start_pos - 5 && rect.y <= head_start_pos + 5) {
+        if (rect.y >= head_start_pos - 4 && rect.y <= head_start_pos + 4) {
           head_pos.push({
             x: rect.x,
             y: rect.y,
@@ -40,6 +40,7 @@ function tracking_start() {
             width: rect.width,
             start: start
           });
+          head_pos = head_pos.sort((a, b) => (a.x < b.x ? -1 : 1));
           start = start + question_multipler;
         } else {
           total_mark++;
@@ -52,7 +53,9 @@ function tracking_start() {
 
   tracking.track(canvas, tracker);
   function plot(x, y, w, h, color) {
+    console.log(head_pos);
     let answer_no;
+    var head_count = 0;
     head_pos.forEach(pos => {
       let answer_holder = { no: null, answer: null };
       if (
@@ -71,15 +74,16 @@ function tracking_start() {
             break;
           }
         }
-        //Loop through total quesion
+        //Loop through total question
         for (let i = 1; i <= question_multipler; i++) {
           let from_y = pos.y + pos.height * i;
           let to_y = pos.y + pos.height * (i + 1);
           let center_y = y + h / 2;
           if (center_y >= from_y && center_y <= to_y) {
             //rect.innerHTML = rect.innerHTML + (pos.start + i);
-            answer_no = answer_no + parseInt(pos.start + i);
-            answer_holder.no = pos.start + i;
+            answer_no =
+              answer_no + parseInt(head_count * question_multipler + i);
+            answer_holder.no = head_count * question_multipler + i;
             break;
           }
         }
@@ -87,9 +91,10 @@ function tracking_start() {
           summary.push(answer_holder);
         }
       }
+      head_count++;
     });
 
-    context.strokeStyle = color;
+    context.strokeStyle = "#F00";
     context.strokeRect(x, y, w, h);
     context.font = "11px Helvetica";
     context.fillStyle = "#f00";

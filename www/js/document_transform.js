@@ -7,7 +7,7 @@ function transform() {
   let src = img.clone();
   let dst = new cv.Mat(screenHeight, screenWidth, cv.CV_8UC4);
 
-  //cv.convertScaleAbs(img, img, 1.1);
+  cv.convertScaleAbs(img, img, 1.1);
 
   cv.GaussianBlur(src, src, new cv.Size(5, 5), 0, 0);
   cv.Canny(src, src, 80, 255, 3, true);
@@ -107,18 +107,6 @@ function transform() {
     new cv.Scalar()
   );
 
-  /*
-  cv.drawContours(
-    img,
-    contours,
-    -1,
-    new cv.Scalar(0, 255, 0),
-    1,
-    cv.LINE_8,
-    hierarchy,
-    100
-  );
-  */
   cv.imshow("canvas", dst);
 
   src.delete();
