@@ -6,6 +6,7 @@
       name="viewport"
       content="initial-scale=1, width=device-width, viewport-fit=cover"
     />
+    <script src="adapter-latest.js"></script>
     <script src="tracking-min.js"></script>
     <script src="tracking-js-kilogram-script.js"></script>
     <style>
@@ -79,6 +80,7 @@
       }
 
       function onOpenCvReady() {
+        startCamera();
         check = setInterval(() => {
           if (cv.Mat != undefined) {
             clearInterval(check);
@@ -86,8 +88,23 @@
           }
         }, 0.5);
       }
+      function startCamera() {
+        const constraints = {
+          video: {
+            facingMode: { ideal: "environment" },
+            width: screen.availHeight,
+            height: screen.availWidth
+          }
+        };
+        navigator.mediaDevices.getUserMedia(constraints).then(stream => {
+          const player = document.querySelector("#player");
+          const canvas = document.querySelector("#canvas");
+
+          player.srcObject = stream;
+          canvas.width = screen.availWidth;
+          canvas.height = screen.availHeight;
+        });
+      }
     </script>
-    <script type="text/javascript" src="js/index.js"></script>
-    <script type="text/javascript" src="cordova.js"></script>
   </body>
 </html>
