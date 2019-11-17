@@ -2,20 +2,23 @@
 <html>
   <head>
     <title>Kilogram Exam</title>
-    <meta
-      name="viewport"
-      content="initial-scale=1, width=device-width, viewport-fit=cover"
-    />
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
     <meta name="mobile-web-app-capable" content="yes" />
-    <script src="adapter-latest.js"></script>
-    <script src="tracking-min.js"></script>
-    <script src="tracking-js-kilogram-script.js"></script>
+    <script type="text/javascript" src="adapter-latest.js"></script>
+    <script type="text/javascript" src="tracking-min.js"></script>
+    <script
+      type="text/javascript"
+      src="tracking-js-kilogram-script.js"
+    ></script>
     <style>
+      * {
+        box-sizing: border-box;
+      }
       .rect {
         position: absolute;
       }
       body {
-        background-color: black;
+        background-color: #eee;
         margin: 0;
       }
       html,
@@ -28,10 +31,8 @@
       span {
         position: absolute;
       }
-      canvas {
-        background-color: rgba(255, 255, 255, 0.1);
-      }
-      #player {
+      canvas,
+      video {
         animation: 0.3s fade;
         opacity: 1;
       }
@@ -47,13 +48,10 @@
   </head>
   <body>
     <div class="container">
-      <canvas onclick="close_snapshot();" id="canvas"></canvas>
-      <video
-        onclick="snapshot();"
-        style="display: none;"
-        id="player"
-        autoplay=""
-      ></video>
+      <div onclick="snapshot();">
+        <video style="display: none;" id="player" autoplay=""></video>
+        <canvas id="canvas"></canvas>
+      </div>
     </div>
     <script type="text/javascript" src="js/document_transform.js"></script>
     <script
@@ -62,22 +60,38 @@
       type="text/javascript"
       src="js/opencv.js"
     ></script>
-    <script>
+    <script type="text/javascript">
+      const player = document.querySelector("#player");
+      const canvas = document.querySelector("#canvas");
       var check;
-      function snapshot() {
-        let canvas = document.getElementById("canvas");
-        let context = canvas.getContext("2d");
-        let video = document.getElementById("player");
+      var close_timeout;
 
-        context.drawImage(video, 0, 0);
-        transform();
-        tracking_start();
-        video.style.display = "none";
+      window.onresize = () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      };
+
+      function snapshot() {
+        if (canvas.style.display === "none") {
+          let context = canvas.getContext("2d");
+
+          context.drawImage(player, 0, 0);
+          transform();
+          tracking_start();
+
+          canvas.style.display = "block";
+          player.style.display = "none";
+          close_timeout = setTimeout(close_snapshot, 3000);
+        } else {
+          close_snapshot();
+        }
       }
 
       function close_snapshot() {
-        let video = document.getElementById("player");
-        video.style.display = "block";
+        clearTimeout(close_timeout);
+
+        canvas.style.display = "none";
+        player.style.display = "block";
       }
 
       function onOpenCvReady() {
@@ -93,17 +107,13 @@
         const constraints = {
           video: {
             facingMode: { ideal: "environment" },
-            width: screen.availHeight,
-            height: screen.availWidth
+            width: window.innerHeight,
+            height: window.innerWidth
           }
         };
         navigator.mediaDevices.getUserMedia(constraints).then(stream => {
-          const player = document.querySelector("#player");
-          const canvas = document.querySelector("#canvas");
-
           player.srcObject = stream;
-          canvas.width = screen.availWidth;
-          canvas.height = screen.availHeight;
+          window.onresize();
         });
       }
     </script>

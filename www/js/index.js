@@ -38,32 +38,21 @@ var app = {
 
     webserver.start(8080);
     webserver.onRequest(req => {
+      console.log(req.path);
       readTextFile("file:///android_asset/www" + req.path, req.requestId);
     });
+    window.open = cordova.InAppBrowser.open;
+    var drive = window.open(
+      "http://localhost:8080/home.html",
+      "_system",
+      "location=yes"
+    );
     window.screen.orientation.lock("portrait");
+    /*
     CameraPreview.startCamera(null, () =>
       CameraPreview.stopCamera(() => CameraPreview.hide(app.startCamera()))
     );
-  },
-
-  startCamera() {
-    const constraints = {
-      video: true
-    };
-    navigator.mediaDevices
-      .getUserMedia({
-        video: {
-          facingMode: "environment"
-        }
-      })
-      .then(stream => {
-        const player = document.querySelector("#player");
-        const canvas = document.querySelector("#canvas");
-
-        player.srcObject = stream;
-        canvas.width = screen.width;
-        canvas.height = screen.height;
-      });
+    */
   }
 };
 app.initialize();
