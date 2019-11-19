@@ -5,13 +5,14 @@ var API_KEY = "AIzaSyDN1w4HgvGe0ytbOUJ6T10i5ymjW9j0qE0";
 
 // Array of API discovery doc URLs for APIs used by the quickstart
 var DISCOVERY_DOCS = [
-  "https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"
+  "https://www.googleapis.com/discovery/v1/apis/drive/v3/rest",
+  "https://people.googleapis.com/$discovery/rest?version=v1"
 ];
 
 // Authorization scopes required by the API; multiple scopes can be
 // included, separated by spaces.
 var SCOPES =
-  "https://www.googleapis.com/auth/drive.metadata.readonly https://www.googleapis.com/auth/drive.appdata";
+  "https://www.googleapis.com/auth/drive.metadata.readonly https://www.googleapis.com/auth/drive.appdata https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile";
 
 var authorizeButton = document.getElementsByClassName("g-signin")[0];
 //var signoutButton = document.getElementById("signout_button");
@@ -86,7 +87,19 @@ function handleSignoutClick(event) {
   gapi.auth2.getAuthInstance().signOut();
 }
 
+var fileResult;
+
 function listFiles() {
+  gapi.client.people.people
+    .get({
+      resourceName: "people/me",
+      personFields: "emailAddresses,names,photos"
+    })
+    .then(res => {
+      let profile = document.getElementsByClassName("profile_img")[0];
+      profile.src = res.result.photos[0].url;
+      profile.alt = res.result.names[0].displayName;
+    });
   gapi.client.drive.files
     .list({
       spaces: "appDataFolder",
@@ -94,7 +107,6 @@ function listFiles() {
       fields: "nextPageToken, files(id, name)"
     })
     .then(function(response) {
-      console.log("Files:");
       var files = response.result.files;
       if (files && files.length > 0) {
         for (var i = 0; i < files.length; i++) {
@@ -113,5 +125,10 @@ function getFiles(file) {
       fileId: file,
       alt: "media"
     })
-    .then(res => console.log(res.result));
+    .then(res => {
+      fileResult = res.result;
+      for (const data in fileResult) {
+        console.log(data + " : " + fileResult[data]);
+      }
+    });
 }

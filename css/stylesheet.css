@@ -18,7 +18,8 @@ body {
 video,
 canvas,
 span,
-.signin_dialog {
+.signin_dialog,
+.question_list {
   position: absolute;
 }
 canvas,
@@ -39,7 +40,8 @@ video {
   height: 100%;
 }
 .signin_dialog {
-  background-color: #339;
+  /* display: none; */
+  background-color: #809ee8;
   height: 100%;
   width: 100%;
   padding: 10px;
@@ -59,4 +61,32 @@ video {
   left: 50%;
   transform: translate(-50%, -50%);
   width: 50%;
+}
+.question_list {
+  background-color: #809ee8;
+  width: 100%;
+  min-height: 100%;
+}
+.question_header {
+  padding: 10px;
+  font-weight: 400;
+  background-color: white;
+  font-family: "Hack Nerd Font";
+}
+.question_bt {
+  color: white;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+.question_bt:hover {
+  background-color: #809ed0;
+  cursor: pointer;
+}
+.profile_img {
+  border-radius: 50%;
+  height: 30px;
+  width: 30px;
+  object-fit: cover;
+  border: 1px solid black;
+  float: right;
 }
