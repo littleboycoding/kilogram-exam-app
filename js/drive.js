@@ -88,6 +88,7 @@ function handleSignoutClick(event) {
 }
 
 var fileResult;
+var selectedQuestion;
 
 function listFiles() {
   gapi.client.people.people
@@ -128,7 +129,23 @@ function getFiles(file) {
     .then(res => {
       fileResult = res.result;
       for (const data in fileResult) {
-        console.log(data + " : " + fileResult[data]);
+        console.log(Object.keys(fileResult[data]).length);
+        let select = document.getElementsByClassName("question_selection")[0];
+        select.innerHTML =
+          select.innerHTML +
+          "<div class='question_bt' onclick='question_selected(\"" +
+          data +
+          "\")'>" +
+          data +
+          " - ทั้งหมด " +
+          Object.keys(fileResult[data]).length +
+          " ข้อ</div>";
       }
     });
+}
+
+function question_selected(name) {
+  const question_list = document.getElementsByClassName("question_list")[0];
+  question_list.style.display = "none";
+  selectedQuestion = name;
 }
