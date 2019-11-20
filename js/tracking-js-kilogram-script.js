@@ -20,7 +20,7 @@ function tracking_start() {
   });
 
   const tracker = new tracking.ColorTracker(["black"]);
-  tracker.setMinDimension(5);
+  tracker.setMinDimension(3);
 
   tracker.on("track", function(event) {
     let head_start_pos = 0;
