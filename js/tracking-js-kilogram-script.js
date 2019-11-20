@@ -3,7 +3,7 @@ function tracking_start() {
   const context = canvas.getContext("2d");
   const container = document.querySelector(".container");
   const answer = [null, "A", "B", "C", "D", "E"];
-  const question_multipler = 5;
+  const question_multipler = 25;
   const answer_available = 5;
   const y_tostartfrom = 60;
 
