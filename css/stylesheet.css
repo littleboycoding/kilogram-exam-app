@@ -39,6 +39,7 @@ video {
   height: 100%;
 }
 .signin_dialog {
+  /* display: none; */
   background-color: #339;
   height: 100%;
   width: 100%;

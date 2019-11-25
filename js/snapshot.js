@@ -14,12 +14,15 @@ function snapshot() {
     let context = canvas.getContext("2d");
 
     context.drawImage(player, 0, 0);
-    transform();
-    tracking_start();
+    if (transform()) {
+      tracking_start();
+    } else {
+      return;
+    }
 
     canvas.style.display = "block";
     player.style.display = "none";
-    close_timeout = setTimeout(close_snapshot, 3000);
+    //close_timeout = setTimeout(close_snapshot, 3000);
   } else {
     close_snapshot();
   }
@@ -52,5 +55,14 @@ function startCamera() {
   navigator.mediaDevices.getUserMedia(constraints).then(stream => {
     player.srcObject = stream;
     window.onresize();
+
+    const track = stream.getVideoTracks()[0];
+
+    const imageCapture = new ImageCapture(track);
+    /*
+    const photoCap = imageCapture.getPhotoCapabilities().then(() => {
+      track.applyConstraints({ advanced: [{ torch: true }] });
+    });
+    */
   });
 }

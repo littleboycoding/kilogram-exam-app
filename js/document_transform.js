@@ -52,6 +52,12 @@ function transform() {
     true
   );
 
+  console.log(approx.rows);
+  if (approx.rows != 4) {
+    alert("ไม่เจอกระดาษ");
+    return false;
+  }
+
   let cornerArray = [];
 
   for (let i = 0; i < 8; i = i + 2) {
@@ -117,4 +123,6 @@ function transform() {
   srcTri.delete();
   dstTri.delete();
   approx.delete();
+
+  return true;
 }
