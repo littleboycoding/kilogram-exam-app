@@ -1,11 +1,14 @@
+var score = 0;
+var questionEndLine;
 function tracking_start() {
+  score = 0;
   const canvas = document.getElementById("canvas");
   const context = canvas.getContext("2d");
   const container = document.querySelector(".container");
   const answer = [null, "A", "B", "C", "D", "E"];
-  const question_multipler = 5;
+  const question_multipler = 25;
   const answer_available = 5;
-  const y_tostartfrom = 60;
+  const y_tostartfrom = 50;
 
   var summary = [];
   var total_mark = 0;
@@ -20,89 +23,202 @@ function tracking_start() {
   });
 
   const tracker = new tracking.ColorTracker(["black"]);
-  tracker.setMinDimension(5);
+  tracker.setMinDimension(3);
+  tracker.setMinGroupSize(20);
 
   tracker.on("track", function(event) {
-    let head_start_pos = 0;
-    let start = 0;
-    event.data.forEach(function(rect) {
-      // Y to start scanning
-      if (rect.y > y_tostartfrom) {
-        //First match always be starting position
-        if (head_start_pos == 0) {
-          head_start_pos = rect.y;
-        }
-        if (rect.y >= head_start_pos - 4 && rect.y <= head_start_pos + 4) {
-          head_pos.push({
-            x: rect.x,
-            y: rect.y,
-            height: rect.height,
-            width: rect.width,
-            start: start
-          });
-          head_pos = head_pos.sort((a, b) => (a.x < b.x ? -1 : 1));
-          start = start + question_multipler;
-        } else {
-          total_mark++;
-        }
-        plot(rect.x, rect.y, rect.width, rect.height, rect.color);
+    let head_start_count = 0;
+    let head_array = [];
+    /*
+    event.data.forEach(rect => {
+      if (
+        rect.y > y_tostartfrom &&
+        rect.x > 15 &&
+        rect.x + rect.width < canvas.width - 15
+      ) {
+        plot(rect.x, rect.y, rect.width, rect.height, "#F00", "");
       }
     });
-    console.log("Total mark : " + total_mark);
+    //return;
+	*/
+    event.data.forEach(function(rect) {
+      // Y to start scanning
+      if (
+        rect.y > y_tostartfrom &&
+        rect.x > 15 &&
+        rect.x + rect.width < canvas.width - 15
+      ) {
+        if (head_start_count < 4) {
+          head_array.push(rect);
+          head_start_count++;
+        } else {
+          head_array.sort((a, b) => a.x - b.x);
+          return;
+        }
+      }
+    });
+    head = [
+      {
+        x: 0,
+        y: head_array[0].y,
+        width: head_array[1].x - 5,
+        height: head_array[0].height
+      },
+      {
+        x: head_array[1].x - 5,
+        y: head_array[1].y,
+        width: head_array[2].x - head_array[1].x,
+        height: head_array[1].height
+      },
+      {
+        x: head_array[2].x - 5,
+        y: head_array[2].y,
+        width: head_array[3].x - head_array[2].x,
+        height: head_array[2].height
+      },
+      {
+        x: head_array[3].x - 5,
+        y: head_array[3].y,
+        width: canvas.width,
+        height: head_array[3].height
+      }
+    ];
+    const headRow = [
+      event.data.filter(
+        data =>
+          data.x + data.width <= head[0].width &&
+          data.y > head[0].y + head[0].height &&
+          data.y <= head[0].y * 2 + (head[0].height + 1.1) * 26
+      ),
+      event.data.filter(
+        data =>
+          data.x >= head[1].x &&
+          data.x + data.width <= head[1].x + head[1].width &&
+          data.y > head[1].y + head[1].height &&
+          data.y <= head[0].y * 2 + (head[0].height + 1.1) * 26
+      ),
+      event.data.filter(
+        data =>
+          data.x >= head[2].x &&
+          data.x + data.width <= head[2].x + head[2].width &&
+          data.y > head[2].y + head[2].height &&
+          data.y <= head[0].y * 2 + (head[0].height + 1.1) * 26
+      ),
+      event.data.filter(
+        data =>
+          data.x >= head[3].x &&
+          data.y > head[3].y + head[3].height &&
+          data.y <= head[0].y * 2 + (head[0].height + 1.1) * 26
+      )
+    ];
+    for (i = 0; i < 4; i++) {
+      headRow[i].sort((a, b) => a.x - b.x);
+      headRow[i] = headRow[i].slice(0, 25);
+      headRow[i].sort((a, b) => a.y - b.y);
+    }
+    questionEndLine = headRow[0][24].y + headRow[0][24].height;
+    var right_answer = [];
+    var id_list = "0987654321";
+    while (right_answer.length < 100) {
+      right_answer.push(Math.floor(Math.random() * 5) + 1);
+    }
+    let rows = 0;
+    headRow.forEach(row => {
+      row.forEach((data, index) => {
+        let answer_mark = event.data.filter(
+          filter =>
+            filter.x > data.x + data.width &&
+            filter.x + filter.width <
+              data.x + data.width * (answer_available + 1) &&
+            filter.y + filter.height / 2 > data.y &&
+            filter.y + filter.height / 2 < data.y + data.height &&
+            filter.y < questionEndLine
+        ).length;
+
+        let right_x =
+          data.x +
+          data.width * right_answer[index + rows * question_multipler] +
+          data.width / 2;
+        let center_answer_y = data.y + data.height / 2;
+        let result = event.data.findIndex(
+          result_data =>
+            right_x > result_data.x &&
+            right_x < result_data.x + result_data.width &&
+            center_answer_y > result_data.y &&
+            center_answer_y < result_data.y + result_data.height
+        );
+
+        if (result != -1 && answer_mark == 1) {
+          const data = event.data[result];
+          plot(data.x, data.y, data.width, data.height, "#0F0", "Correct");
+          score++;
+        } else {
+          plot(
+            data.x +
+              (data.width * right_answer[index + rows * question_multipler] +
+                1),
+            data.y,
+            data.width,
+            data.height,
+            "#F00",
+            "Incorrect"
+          );
+        }
+        /*
+        for (i = 1; i <= answer_available; i++) {
+          let center_answer_x = data.x + data.width * i + data.width / 2;
+          plot(
+            center_answer_x,
+            data.y + data.height / 2,
+            0,
+            0,
+            "#F00",
+            index + (rows * question_multipler + 1) + " " + answer[i]
+          );
+        }
+	*/
+      });
+      rows++;
+    });
+    let idRow = [];
+    let studentId;
+    event.data.forEach(data => {
+      if (data.y > questionEndLine) {
+        idRow.push(data);
+      }
+    });
+    idRow.shift();
+    idRow.sort((a, b) => a.x - b.x);
+    let idHead = idRow.slice(0, 10);
+    idHead.sort((a, b) => a.y - b.y);
+    let idFill = idRow.slice(10, 20);
+    let idResult = [];
+    idHead.forEach((data, index) => {
+      plot(data.x, data.y, data.width, data.height, "#F00", "H" + index);
+    }),
+      idFill.forEach(data => {
+        const y_center = data.y + data.height / 2;
+        const result = idHead.findIndex(
+          head => y_center > head.y && y_center < head.y + head.height
+        );
+        plot(data.x, data.y, data.width, data.height, "#F00", result);
+        idResult.push(result);
+      });
+    console.log(idResult.join(""), score);
+    if (idResult.join("") != id_list) {
+      alert("ไม่พบนักเรียนจากหมายเลขประจำตัว ได้คะแนน " + score);
+    } else {
+      alert("หมายเลขนักเรียน " + idResult.join("") + " ได้คะแนน " + score);
+    }
+    idResult.length > 0;
   });
 
   tracking.track(canvas, tracker);
-  function plot(x, y, w, h, color) {
-    console.log(head_pos);
-    let answer_no;
-    var head_count = 0;
-    head_pos.forEach(pos => {
-      let answer_holder = { no: null, answer: null };
-      if (
-        x + w / 2 >= pos.x + pos.width &&
-        x + w / 2 <= pos.x + pos.width * (answer_available + 1)
-      ) {
-        //Loop through total of answer available
-        for (let i = 1; i <= answer_available; i++) {
-          let from_x = pos.x + pos.width * i;
-          let to_x = pos.x + pos.width * (i + 1);
-          let center_x = x + w / 2;
-          if (center_x >= from_x && center_x <= to_x) {
-            //rect.innerHTML = answer[i];
-            answer_no = answer[i];
-            answer_holder.answer = answer[i];
-            break;
-          }
-        }
-        //Loop through total question
-        for (let i = 1; i <= question_multipler; i++) {
-          let from_y = pos.y + pos.height * i;
-          let to_y = pos.y + pos.height * (i + 1);
-          let center_y = y + h / 2;
-          if (center_y >= from_y && center_y <= to_y) {
-            //rect.innerHTML = rect.innerHTML + (pos.start + i);
-            answer_no =
-              answer_no + parseInt(head_count * question_multipler + i);
-            answer_holder.no = head_count * question_multipler + i;
-            break;
-          }
-        }
-        if (answer_holder.no != null && answer_holder.answer != null) {
-          summary.push(answer_holder);
-        }
-      }
-      head_count++;
-    });
-
-    context.strokeStyle = "#F00";
+  function plot(x, y, w, h, color, text) {
+    context.strokeStyle = color;
     context.strokeRect(x, y, w, h);
-    context.font = "11px Helvetica";
-    context.fillStyle = "#f00";
-
-    if (answer_no != undefined) {
-      context.fillText(answer_no, x + w + 5, y + 11);
-    } else {
-      context.fillText("Base box", x + w + 5, y + 11);
-    }
+    context.font = "12px Helvetica";
+    context.fillStyle = color;
+    //context.fillText(text, x, y);
   }
 }
