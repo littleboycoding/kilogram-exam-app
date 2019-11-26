@@ -218,7 +218,7 @@ function tracking_start() {
     if (idResult.join("") != id_list) {
       alert("ไม่พบนักเรียนจากหมายเลขประจำตัว ได้คะแนน " + score);
     } else {
-      alert("หมายเลขนักเรียน " + idResult.join("") + " ได้คะแนน " + score);
+      alert("หมายเลขนักเรียน " + idResult.join("") + " ชื่อผู้สอบ นายธณวัฒน์ ยอดนิล ได้คะแนน " + score);
     }
     idResult.length > 0;
   });
