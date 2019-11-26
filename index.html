@@ -29,10 +29,18 @@
         <video style="display: none;" id="player" autoplay=""></video>
         <canvas id="canvas"></canvas>
       </div>
+      <div
+        id="back"
+        onclick="backtoSelect()"
+        style="display: none; z-index: 999; position: absolute; opacity: 0.2; padding: 4px; background-color: black; color: white;"
+      >
+        ย้อนกลับ
+      </div>
       <div class="question_list">
         <div class="question_header">
-           กรุณาเลือกข้อสอบที่ต้องการตรวจ
+          กรุณาเลือกข้อสอบที่ต้องการตรวจ
           <img
+            onclick="handleSignoutClick()"
             src="https://image.flaticon.com/icons/svg/149/149071.svg"
             alt="profile"
             class="profile_img"

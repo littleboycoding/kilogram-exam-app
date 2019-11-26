@@ -17,6 +17,9 @@ var SCOPES =
 var authorizeButton = document.getElementsByClassName("g-signin")[0];
 //var signoutButton = document.getElementById("signout_button");
 
+var drive;
+var question_list = {};
+
 /**
  *  On load, called to load the auth2 library and API client library.
  */
@@ -59,7 +62,7 @@ function initClient() {
 function updateSigninStatus(isSignedIn) {
   if (isSignedIn) {
     dialog.style.display = "none";
-    listFiles();
+    initList();
 
     //Uncomment below line will signout
     //handleSignoutClick();
@@ -84,13 +87,17 @@ function handleAuthClick(event) {
  *  Sign out the user upon button click.
  */
 function handleSignoutClick(event) {
-  gapi.auth2.getAuthInstance().signOut();
+  if (confirm("ต้องการออกจากระบบ ?")) {
+    gapi.auth2.getAuthInstance().signOut();
+    window.location = "index.html";
+  }
 }
 
 var fileResult;
 var selectedQuestion;
 
-function listFiles() {
+async function initList() {
+  drive = gapi.client.drive.files;
   gapi.client.people.people
     .get({
       resourceName: "people/me",
@@ -101,51 +108,67 @@ function listFiles() {
       profile.src = res.result.photos[0].url;
       profile.alt = res.result.names[0].displayName;
     });
-  gapi.client.drive.files
-    .list({
-      spaces: "appDataFolder",
-      pageSize: 10,
-      fields: "nextPageToken, files(id, name)"
-    })
-    .then(function(response) {
-      var files = response.result.files;
-      if (files && files.length > 0) {
-        for (var i = 0; i < files.length; i++) {
-          var file = files[i].id;
-          getFiles(file);
-        }
-      } else {
-        console.log("No files found.");
-      }
-    });
+
+  fileResult = await downloadFile("question.json");
+  for (const data in fileResult) {
+    question_list[data] = fileResult[data];
+    let select = document.getElementsByClassName("question_selection")[0];
+    select.innerHTML =
+      select.innerHTML +
+      "<div class='question_bt' onclick='question_selected(\"" +
+      data +
+      "\")'>" +
+      data +
+      " - ทั้งหมด " +
+      Object.keys(fileResult[data]).length +
+      " ข้อ</div>";
+  }
+  console.log(question_list);
 }
 
-function getFiles(file) {
-  gapi.client.drive.files
-    .get({
-      fileId: file,
-      alt: "media"
-    })
-    .then(res => {
-      fileResult = res.result;
-      for (const data in fileResult) {
-        console.log(Object.keys(fileResult[data]).length);
-        let select = document.getElementsByClassName("question_selection")[0];
-        select.innerHTML =
-          select.innerHTML +
-          "<div class='question_bt' onclick='question_selected(\"" +
-          data +
-          "\")'>" +
-          data +
-          " - ทั้งหมด " +
-          Object.keys(fileResult[data]).length +
-          " ข้อ</div>";
-      }
-    });
+async function downloadFile(fileName) {
+  return new Promise(async (resolve, reject) => {
+    const fileID = await getFileID(fileName);
+
+    drive
+      .get({
+        fileId: fileID,
+        alt: "media"
+      })
+      .then(res => {
+        resolve(res.result);
+      });
+  });
+}
+
+function getFileID(fileName) {
+  return new Promise((resolve, reject) => {
+    drive
+      .list({
+        spaces: "appDataFolder",
+        pageSize: 10,
+        fields: "nextPageToken, files(id, name)"
+      })
+      .then(function(response) {
+        const files = response.result.files.findIndex(
+          data => data.name == fileName
+        );
+        resolve(response.result.files[files].id);
+      });
+  });
 }
 
 function question_selected(name) {
-  const question_list = document.getElementsByClassName("question_list")[0];
-  question_list.style.display = "none";
+  const qList = document.getElementsByClassName("question_list")[0];
+  const back = document.getElementById("back");
+  back.style.display = "block";
+  qList.style.display = "none";
   selectedQuestion = name;
+}
+
+function backtoSelect() {
+  const qList = document.getElementsByClassName("question_list")[0];
+  qList.style.display = "block";
+  const back = document.getElementById("back");
+  back.style.display = "none";
 }

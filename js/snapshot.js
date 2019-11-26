@@ -33,6 +33,7 @@ function close_snapshot() {
 
   canvas.style.display = "none";
   player.style.display = "block";
+  document.getElementById("back").style.display = "block";
 }
 
 function onOpenCvReady() {

@@ -27,6 +27,7 @@ function tracking_start() {
   tracker.setMinGroupSize(20);
 
   tracker.on("track", function(event) {
+    document.getElementById("back").style.display = "none";
     let head_start_count = 0;
     let head_array = [];
     /*
@@ -117,14 +118,18 @@ function tracking_start() {
       headRow[i].sort((a, b) => a.y - b.y);
     }
     questionEndLine = headRow[0][24].y + headRow[0][24].height;
-    var right_answer = [];
+    var right_answer = question_list[selectedQuestion];
+    console.log(right_answer);
     var id_list = "0987654321";
-    while (right_answer.length < 100) {
-      right_answer.push(Math.floor(Math.random() * 5) + 1);
-    }
     let rows = 0;
     headRow.forEach(row => {
       row.forEach((data, index) => {
+        if (
+          index + 1 + rows * question_multipler >
+          Object.keys(right_answer).length
+        ) {
+          return;
+        }
         let answer_mark = event.data.filter(
           filter =>
             filter.x > data.x + data.width &&
@@ -134,10 +139,12 @@ function tracking_start() {
             filter.y + filter.height / 2 < data.y + data.height &&
             filter.y < questionEndLine
         ).length;
-
         let right_x =
           data.x +
-          data.width * right_answer[index + rows * question_multipler] +
+          data.width *
+            parseInt(
+              right_answer[index + 1 + rows * question_multipler].correct
+            ) +
           data.width / 2;
         let center_answer_y = data.y + data.height / 2;
         let result = event.data.findIndex(
@@ -155,7 +162,10 @@ function tracking_start() {
         } else {
           plot(
             data.x +
-              (data.width * right_answer[index + rows * question_multipler] +
+              (data.width *
+                parseInt(
+                  right_answer[index + 1 + rows * question_multipler].correct
+                ) +
                 1),
             data.y,
             data.width,

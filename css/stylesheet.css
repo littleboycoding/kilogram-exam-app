@@ -41,11 +41,7 @@ video {
 }
 .signin_dialog {
   /* display: none; */
-<<<<<<< HEAD
   background-color: #809ee8;
-=======
-  background-color: #339;
->>>>>>> scanner-improvment
   height: 100%;
   width: 100%;
   padding: 10px;
