@@ -60,10 +60,8 @@ function startCamera() {
     const track = stream.getVideoTracks()[0];
 
     const imageCapture = new ImageCapture(track);
-    /*
     const photoCap = imageCapture.getPhotoCapabilities().then(() => {
       track.applyConstraints({ advanced: [{ torch: true }] });
     });
-    */
   });
 }
