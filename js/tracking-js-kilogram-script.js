@@ -24,8 +24,8 @@ function tracking_start() {
   });
 
   const tracker = new tracking.ColorTracker(["black"]);
-  tracker.setMinDimension(2);
-  tracker.setMinGroupSize(15);
+  tracker.setMinDimension(1);
+  tracker.setMinGroupSize(10);
 
   tracker.on("track", async function(event) {
     document.getElementById("back").style.display = "none";
