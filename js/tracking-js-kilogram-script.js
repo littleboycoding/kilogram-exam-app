@@ -1,4 +1,5 @@
 var score = 0;
+var marking = [];
 var questionEndLine;
 function tracking_start() {
   score = 0;
@@ -26,24 +27,12 @@ function tracking_start() {
   tracker.setMinDimension(3);
   tracker.setMinGroupSize(20);
 
-  tracker.on("track", function(event) {
+  tracker.on("track", async function(event) {
     document.getElementById("back").style.display = "none";
+    document.getElementById("flashlight").style.display = "none";
     let head_start_count = 0;
     let head_array = [];
-    /*
-    event.data.forEach(rect => {
-      if (
-        rect.y > y_tostartfrom &&
-        rect.x > 15 &&
-        rect.x + rect.width < canvas.width - 15
-      ) {
-        plot(rect.x, rect.y, rect.width, rect.height, "#F00", "");
-      }
-    });
-    //return;
-	*/
     event.data.forEach(function(rect) {
-      // Y to start scanning
       if (
         rect.y > y_tostartfrom &&
         rect.x > 15 &&
@@ -119,16 +108,30 @@ function tracking_start() {
     }
     questionEndLine = headRow[0][24].y + headRow[0][24].height;
     var right_answer = question_list[selectedQuestion];
-    console.log(right_answer);
-    var id_list = "0987654321";
-    let rows = 0;
-    headRow.forEach(row => {
+    var rows = 0;
+    headRow.forEach((row, row_index) => {
       row.forEach((data, index) => {
         if (
           index + 1 + rows * question_multipler >
           Object.keys(right_answer).length
         ) {
           return;
+        }
+        for (let i = 1; i <= answer_available; i++) {
+          let center_x = data.x + data.width * i + data.width / 2;
+          let center_y = data.y + data.height / 2;
+          if (
+            event.data.find(
+              find =>
+                center_x > find.x &&
+                center_x < find.x + find.width &&
+                center_y > find.y &&
+                center_y < find.y + find.height
+            ) != undefined
+          ) {
+            marking[index + rows * question_multipler] = answer[i];
+            break;
+          }
         }
         let answer_mark = event.data.filter(
           filter =>
@@ -174,19 +177,6 @@ function tracking_start() {
             "Incorrect"
           );
         }
-        /*
-        for (i = 1; i <= answer_available; i++) {
-          let center_answer_x = data.x + data.width * i + data.width / 2;
-          plot(
-            center_answer_x,
-            data.y + data.height / 2,
-            0,
-            0,
-            "#F00",
-            index + (rows * question_multipler + 1) + " " + answer[i]
-          );
-        }
-	*/
       });
       rows++;
     });
@@ -214,13 +204,56 @@ function tracking_start() {
         plot(data.x, data.y, data.width, data.height, "#F00", result);
         idResult.push(result);
       });
-    console.log(idResult.join(""), score);
-    if (idResult.join("") != id_list) {
+    if (studentList[idResult.join("")] == undefined) {
       alert("ไม่พบนักเรียนจากหมายเลขประจำตัว ได้คะแนน " + score);
     } else {
-      alert("หมายเลขนักเรียน " + idResult.join("") + " ชื่อผู้สอบ นายธณวัฒน์ ยอดนิล ได้คะแนน " + score);
+      alert(
+        "หมายเลขนักเรียน " +
+          idResult.join("") +
+          " ชื่อผู้สอบ " +
+          studentList[idResult.join("")] +
+          " ได้คะแนน " +
+          score
+      );
+      document.getElementById("saveCtrl").style.display = "block";
     }
     idResult.length > 0;
+
+    var finalJSON;
+    if (resultJSON == true || resultJSON == false) {
+      resultJSON = Object.assign(
+        {},
+        {
+          [selectedQuestion]: {
+            [studentList[idResult.join("")]]: {
+              totalScore: score,
+              marking: marking
+            }
+          }
+        }
+      );
+    } else {
+      if (resultJSON[selectedQuestion] != undefined) {
+        finalJSON = {
+          [selectedQuestion]: Object.assign(resultJSON[selectedQuestion], {
+            [studentList[idResult.join("")]]: {
+              totalScore: score,
+              marking: marking
+            }
+          })
+        };
+      } else {
+        finalJSON = {
+          [selectedQuestion]: {
+            [studentList[idResult.join("")]]: {
+              totalScore: score,
+              marking: marking
+            }
+          }
+        };
+      }
+    }
+    Object.assign(resultJSON, finalJSON);
   });
 
   tracking.track(canvas, tracker);

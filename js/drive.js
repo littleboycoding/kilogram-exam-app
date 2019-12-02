@@ -12,13 +12,14 @@ var DISCOVERY_DOCS = [
 // Authorization scopes required by the API; multiple scopes can be
 // included, separated by spaces.
 var SCOPES =
-  "https://www.googleapis.com/auth/drive.metadata.readonly https://www.googleapis.com/auth/drive.appdata https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile";
+  "https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive.appfolder https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile";
 
 var authorizeButton = document.getElementsByClassName("g-signin")[0];
 //var signoutButton = document.getElementById("signout_button");
 
 var drive;
 var question_list = {};
+var studentList;
 
 /**
  *  On load, called to load the auth2 library and API client library.
@@ -109,6 +110,8 @@ async function initList() {
       profile.alt = res.result.names[0].displayName;
     });
 
+  studentList = await downloadFile("student.json");
+  resultJSON = await downloadFile("result.json");
   fileResult = await downloadFile("question.json");
   for (const data in fileResult) {
     question_list[data] = fileResult[data];
@@ -123,7 +126,47 @@ async function initList() {
       Object.keys(fileResult[data]).length +
       " ข้อ</div>";
   }
-  console.log(question_list);
+  console.log(resultJSON);
+}
+
+async function saveResult() {
+  const loading = document.getElementById("loadingTOP");
+  loading.style.display = "block";
+  await updateFile("result.json", JSON.stringify(resultJSON));
+
+  loading.style.display = "none";
+  close_snapshot();
+}
+
+async function updateFileContent(fileId, contentBlob) {
+  return new Promise((resolve, reject) => {
+    var xhr = new XMLHttpRequest();
+    xhr.responseType = "json";
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState != XMLHttpRequest.DONE) {
+        return;
+      }
+      resolve(xhr.response);
+    };
+    xhr.open(
+      "PATCH",
+      "https://www.googleapis.com/upload/drive/v3/files/" +
+        fileId +
+        "?uploadType=media"
+    );
+    xhr.setRequestHeader(
+      "Authorization",
+      "Bearer " + gapi.auth.getToken().access_token
+    );
+    xhr.send(contentBlob);
+  });
+}
+
+async function updateFile(fileName, data) {
+  return new Promise(async (resolve, reject) => {
+    const fileID = await getFileID(fileName);
+    await updateFileContent(fileID, data).then(res => resolve(res));
+  });
 }
 
 async function downloadFile(fileName) {
@@ -161,7 +204,9 @@ function getFileID(fileName) {
 function question_selected(name) {
   const qList = document.getElementsByClassName("question_list")[0];
   const back = document.getElementById("back");
+  const flashlight = document.getElementById("flashlight");
   back.style.display = "block";
+  flashlight.style.display = "block";
   qList.style.display = "none";
   selectedQuestion = name;
 }
@@ -171,4 +216,6 @@ function backtoSelect() {
   qList.style.display = "block";
   const back = document.getElementById("back");
   back.style.display = "none";
+  const flashlight = document.getElementById("flashlight");
+  flashlight.style.display = "none";
 }

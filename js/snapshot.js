@@ -3,6 +3,7 @@ const canvas = document.querySelector("#canvas");
 const dialog = document.getElementsByClassName("signin_dialog")[0];
 var check;
 var close_timeout;
+var track;
 
 window.onresize = () => {
   canvas.width = window.innerWidth;
@@ -24,16 +25,23 @@ function snapshot() {
     player.style.display = "none";
     //close_timeout = setTimeout(close_snapshot, 3000);
   } else {
-    close_snapshot();
+    if (document.getElementById("saveCtrl").style.display == "none")
+      close_snapshot();
   }
 }
 
 function close_snapshot() {
-  clearTimeout(close_timeout);
+  setTimeout(() => {
+    clearTimeout(close_timeout);
 
-  canvas.style.display = "none";
-  player.style.display = "block";
-  document.getElementById("back").style.display = "block";
+    canvas.style.display = "none";
+    player.style.display = "block";
+
+    document.getElementById("back").style.display = "block";
+    document.getElementById("flashlight").style.display = "block";
+
+    document.getElementById("saveCtrl").style.display = "none";
+  }, 100);
 }
 
 function onOpenCvReady() {
@@ -45,6 +53,7 @@ function onOpenCvReady() {
     }
   }, 0.5);
 }
+
 function startCamera() {
   const constraints = {
     video: {
@@ -57,11 +66,9 @@ function startCamera() {
     player.srcObject = stream;
     window.onresize();
 
-    const track = stream.getVideoTracks()[0];
+    track = stream.getVideoTracks()[0];
 
-    const imageCapture = new ImageCapture(track);
-    const photoCap = imageCapture.getPhotoCapabilities().then(() => {
-      track.applyConstraints({ advanced: [{ torch: true }] });
-    });
+    imageCapture = new ImageCapture(track);
+    photoCap = imageCapture.getPhotoCapabilities();
   });
 }
