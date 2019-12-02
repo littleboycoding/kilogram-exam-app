@@ -17,15 +17,15 @@ function tracking_start() {
 
   //Register black color to tracking.js
   tracking.ColorTracker.registerColor("black", function(r, g, b) {
-    if (r <= 130 && g <= 130 && b <= 130) {
+    if (r <= 135 && g <= 135 && b <= 135) {
       return true;
     }
     return false;
   });
 
   const tracker = new tracking.ColorTracker(["black"]);
-  tracker.setMinDimension(1);
-  tracker.setMinGroupSize(10);
+  tracker.setMinDimension(3);
+  tracker.setMinGroupSize(20);
 
   tracker.on("track", async function(event) {
     document.getElementById("back").style.display = "none";
