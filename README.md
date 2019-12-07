@@ -1,4 +1,4 @@
-# Kilogram Exam App	Kilogram Exam App
+# Kilogram Exam App - The exam scanner
 
 ภาษาไทย
 
