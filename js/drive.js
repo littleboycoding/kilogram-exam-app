@@ -64,7 +64,6 @@ function updateSigninStatus(isSignedIn) {
   if (isSignedIn) {
     dialog.style.display = "none";
     initList();
-    lockScreen();
 
     //Uncomment below line will signout
     //handleSignoutClick();
@@ -119,7 +118,7 @@ async function initList() {
     let select = document.getElementsByClassName("question_selection")[0];
     select.innerHTML =
       select.innerHTML +
-      "<div class='question_bt' onclick='question_selected(\"" +
+      "<div class='question_bt' onclick='lockScreen(); question_selected(\"" +
       data +
       "\")'>" +
       data +

@@ -117,7 +117,9 @@
       ></script>
       <script type="text/javascript" async>
         async function lockScreen() {
-          await document.body.requestFullscreen();
+          if (!document.fullscreenElemement) {
+            await document.body.requestFullscreen();
+          }
           await screen.orientation.lock("portrait");
         }
       </script>
