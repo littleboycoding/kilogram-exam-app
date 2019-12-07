@@ -64,6 +64,7 @@ function updateSigninStatus(isSignedIn) {
   if (isSignedIn) {
     dialog.style.display = "none";
     initList();
+    lockScreen();
 
     //Uncomment below line will signout
     //handleSignoutClick();
