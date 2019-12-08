@@ -1,4 +1,4 @@
-function transform() {
+async function transform() {
   let screenWidth = window.innerWidth;
   let screenHeight = window.innerHeight;
 
@@ -54,7 +54,8 @@ function transform() {
 
   console.log(approx.rows);
   if (approx.rows != 4) {
-    alert("ไม่เจอกระดาษ");
+    await alert("ไม่เจอกระดาษ");
+    await document.body.requestFullscreen();
     return false;
   }
 
