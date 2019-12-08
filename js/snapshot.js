@@ -58,8 +58,8 @@ function startCamera() {
   const constraints = {
     video: {
       facingMode: { ideal: "environment" },
-      width: window.innerHeight,
-      height: window.innerWidth
+      width: screen.height,
+      height: screen.width
     }
   };
   navigator.mediaDevices.getUserMedia(constraints).then(stream => {
