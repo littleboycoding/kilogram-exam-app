@@ -10,13 +10,15 @@ window.onresize = () => {
   canvas.height = window.innerHeight;
 };
 
-function snapshot() {
+async function snapshot() {
   if (canvas.style.display === "none") {
     let context = canvas.getContext("2d");
 
     context.drawImage(player, 0, 0);
-    if (transform()) {
-      tracking_start();
+    if (await transform()) {
+      if (await !tracking_start()) {
+        return;
+      }
     } else {
       return;
     }
