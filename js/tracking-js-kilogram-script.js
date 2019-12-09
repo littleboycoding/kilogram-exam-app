@@ -106,6 +106,15 @@ function tracking_start() {
       headRow[i] = headRow[i].slice(0, 25);
       headRow[i].sort((a, b) => a.y - b.y);
     }
+    if (
+      headRow[0].length != 25 ||
+      headRow[1].length != 25 ||
+      headRow[2].length != 25 ||
+      headRow[3].length != 25
+    ) {
+      alertMSG("ไม่สามารถสแกนได้");
+      return;
+    }
     questionEndLine = headRow[0][24].y + headRow[0][24].height;
     var right_answer = question_list[selectedQuestion];
     var rows = 0;
