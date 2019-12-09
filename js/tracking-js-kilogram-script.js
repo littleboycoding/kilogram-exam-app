@@ -74,7 +74,15 @@ function tracking_start() {
           height: head_array[3].height
         }
       ];
-      head.forEach(row => plot(row.x, row.y, row.width, row.height, "#0F0"));
+      head.forEach(row =>
+        plot(
+          row.x,
+          row.y,
+          row.width,
+          row.y * 2 + (row.height + 1.1) * 26,
+          "#0F0"
+        )
+      );
       const headRow = [
         event.data.filter(
           data =>
