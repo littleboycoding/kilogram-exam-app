@@ -54,7 +54,7 @@ function transform() {
 
   console.log(approx.rows);
   if (approx.rows != 4) {
-    alert("ไม่เจอกระดาษ");
+    alertMSG("ไม่เจอกระดาษ");
     return false;
   }
 

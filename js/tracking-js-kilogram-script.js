@@ -205,9 +205,9 @@ function tracking_start() {
         idResult.push(result);
       });
     if (studentList[idResult.join("")] == undefined) {
-      alert("ไม่พบนักเรียนจากหมายเลขประจำตัว ได้คะแนน " + score);
+      alertMSG("ไม่พบนักเรียนจากหมายเลขประจำตัว ได้คะแนน " + score);
     } else {
-      alert(
+      alertMSG(
         "หมายเลขนักเรียน " +
           idResult.join("") +
           " ชื่อผู้สอบ " +
