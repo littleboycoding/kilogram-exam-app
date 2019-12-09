@@ -34,7 +34,6 @@ function tracking_start() {
       let head_start_count = 0;
       let head_array = [];
       event.data.forEach(function(rect) {
-        plot(rect.x, rect.y, rect.width, rect.height, "#0F0");
         if (
           rect.y > y_tostartfrom &&
           rect.x > 15 &&
@@ -118,6 +117,18 @@ function tracking_start() {
         alertMSG("ไม่สามารถสแกนได้");
         reject(false);
       }
+      headRow.forEach((head, headI) =>
+        head.forEach((row, rowI) =>
+          plot(
+            row.x,
+            row.y,
+            row.width,
+            row.height,
+            "#0F0",
+            (headI + 1) * (rowI + 1)
+          )
+        )
+      );
       questionEndLine = headRow[0][24].y + headRow[0][24].height;
       var right_answer = question_list[selectedQuestion];
       var rows = 0;
