@@ -34,6 +34,7 @@ function tracking_start() {
       let head_start_count = 0;
       let head_array = [];
       event.data.forEach(function(rect) {
+        plot(rect.x, rect.y, rect.width, rect.height, "#0F0");
         if (
           rect.y > y_tostartfrom &&
           rect.x > 15 &&
