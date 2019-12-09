@@ -1,4 +1,3 @@
-console.log("Alert.js loaded");
 const alert_popup = document.getElementsByClassName("alert")[0];
 function alertMSG(message) {
   alert_popup.innerHTML = message;
