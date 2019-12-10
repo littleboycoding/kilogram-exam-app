@@ -142,7 +142,7 @@ function tracking_start() {
             filter =>
               filter.x > data.x + data.width &&
               filter.x + filter.width <
-                data.x + data.width * (answer_available + 1) &&
+                data.x + data.width * (answer_available + 1) + 5 &&
               filter.y + filter.height / 2 > data.y &&
               filter.y + filter.height / 2 < data.y + data.height &&
               filter.y < questionEndLine
@@ -163,11 +163,13 @@ function tracking_start() {
               center_answer_y < result_data.y + result_data.height
           );
 
+          console.log(answer_mark);
           if (result != -1 && answer_mark == 1) {
             const data = event.data[result];
             plot(data.x, data.y, data.width, data.height, "#0F0");
             score++;
           } else {
+            /*
             plot(
               data.x +
                 (data.width *
@@ -180,6 +182,7 @@ function tracking_start() {
               data.height,
               "#F00"
             );
+	  */
           }
         });
         rows++;
