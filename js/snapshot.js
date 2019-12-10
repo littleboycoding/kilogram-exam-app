@@ -16,16 +16,15 @@ async function snapshot() {
 
     context.drawImage(player, 0, 0);
     if (await transform()) {
-      if (await !tracking_start()) {
+      if (await tracking_start()) {
+        canvas.style.display = "block";
+        player.style.display = "none";
+      } else {
         return;
       }
     } else {
       return;
     }
-
-    canvas.style.display = "block";
-    player.style.display = "none";
-    //close_timeout = setTimeout(close_snapshot, 3000);
   } else {
     if (document.getElementById("saveCtrl").style.display == "none")
       close_snapshot();
