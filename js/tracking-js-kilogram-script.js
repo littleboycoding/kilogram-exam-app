@@ -74,53 +74,34 @@ function tracking_start() {
           height: head_array[3].height
         }
       ];
-      head.forEach(row =>
-        plot(
-          row.x,
-          row.y,
-          row.width,
-          row.y * 2 + (row.height + 1.1) * 26,
-          "#0F0"
-        )
-      );
       const headRow = [
         event.data.filter(
           data =>
             data.x + data.width <= head[0].width &&
-            data.y > head[0].y + head[0].height &&
-            data.y <= head[0].y * 2 + (head[0].height + 1.1) * 26
+            data.y > head[0].y + head[0].height
         ),
         event.data.filter(
           data =>
             data.x >= head[1].x &&
             data.x + data.width <= head[1].x + head[1].width &&
-            data.y > head[1].y + head[1].height &&
-            data.y <= head[0].y * 2 + (head[0].height + 1.1) * 26
+            data.y > head[1].y + head[1].height
         ),
         event.data.filter(
           data =>
             data.x >= head[2].x &&
             data.x + data.width <= head[2].x + head[2].width &&
-            data.y > head[2].y + head[2].height &&
-            data.y <= head[0].y * 2 + (head[0].height + 1.1) * 26
+            data.y > head[2].y + head[2].height
         ),
         event.data.filter(
-          data =>
-            data.x >= head[3].x &&
-            data.y > head[3].y + head[3].height &&
-            data.y <= head[0].y * 2 + (head[0].height + 1.1) * 26
+          data => data.x >= head[3].x && data.y > head[3].y + head[3].height
         )
       ];
       for (i = 0; i < 4; i++) {
-        //headRow[i].sort((a, b) => a.x - b.x);
         headRow[i] = headRow[i].filter(
           data => data.x <= head_array[i].x + head_array[i].width / 2
         );
         headRow[i] = headRow[i].slice(0, 25);
-        console.log("headRow sliced only X sorted", headRow[i]);
-        //headRow[i].sort((a, b) => a.y - b.y);
       }
-      console.log(headRow);
       if (
         headRow[0].length != 25 ||
         headRow[1].length != 25 ||
@@ -130,18 +111,6 @@ function tracking_start() {
         alertMSG("ไม่สามารถสแกนได้");
         reject(false);
       }
-      headRow.forEach((head, headI) =>
-        head.forEach((row, rowI) =>
-          plot(
-            row.x,
-            row.y,
-            row.width,
-            row.height,
-            "#0F0",
-            (headI + 1) * (rowI + 1)
-          )
-        )
-      );
       questionEndLine = headRow[0][24].y + headRow[0][24].height;
       var right_answer = question_list[selectedQuestion];
       var rows = 0;
@@ -196,7 +165,7 @@ function tracking_start() {
 
           if (result != -1 && answer_mark == 1) {
             const data = event.data[result];
-            plot(data.x, data.y, data.width, data.height, "#0F0", "Correct");
+            plot(data.x, data.y, data.width, data.height, "#0F0");
             score++;
           } else {
             plot(
@@ -209,8 +178,7 @@ function tracking_start() {
               data.y,
               data.width,
               data.height,
-              "#F00",
-              "Incorrect"
+              "#F00"
             );
           }
         });
@@ -229,17 +197,14 @@ function tracking_start() {
       idHead.sort((a, b) => a.y - b.y);
       let idFill = idRow.slice(10, 20);
       let idResult = [];
-      idHead.forEach((data, index) => {
-        plot(data.x, data.y, data.width, data.height, "#F00", "H" + index);
-      }),
-        idFill.forEach(data => {
-          const y_center = data.y + data.height / 2;
-          const result = idHead.findIndex(
-            head => y_center > head.y && y_center < head.y + head.height
-          );
-          plot(data.x, data.y, data.width, data.height, "#F00", result);
-          idResult.push(result);
-        });
+      idFill.forEach(data => {
+        const y_center = data.y + data.height / 2;
+        const result = idHead.findIndex(
+          head => y_center > head.y && y_center < head.y + head.height
+        );
+        plot(data.x, data.y, data.width, data.height, "#F00");
+        idResult.push(result);
+      });
       if (studentList[idResult.join("")] == undefined) {
         alertMSG("ไม่พบนักเรียนจากหมายเลขประจำตัว ได้คะแนน " + score);
         resolve(true);
