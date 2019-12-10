@@ -42,6 +42,7 @@ function close_snapshot() {
     document.getElementById("flashlight").style.display = "block";
 
     document.getElementById("saveCtrl").style.display = "none";
+    alertClose();
   }, 100);
 }
 

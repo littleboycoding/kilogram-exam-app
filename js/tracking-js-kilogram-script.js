@@ -10,7 +10,7 @@ function tracking_start() {
     const answer = [null, "A", "B", "C", "D", "E"];
     const question_multipler = 25;
     const answer_available = 5;
-    const y_tostartfrom = 50;
+    const y_tostartfrom = (6.25 * screen.height) / 100;
 
     var summary = [];
     var total_mark = 0;
@@ -206,7 +206,7 @@ function tracking_start() {
         idResult.push(result);
       });
       if (studentList[idResult.join("")] == undefined) {
-        alertMSG("ไม่พบนักเรียนจากหมายเลขประจำตัว ได้คะแนน " + score);
+        alertMSG("ไม่พบนักเรียนจากหมายเลขประจำตัว ได้คะแนน " + score, true);
         resolve(true);
       } else {
         alertMSG(
@@ -215,7 +215,8 @@ function tracking_start() {
             " ชื่อผู้สอบ " +
             studentList[idResult.join("")] +
             " ได้คะแนน " +
-            score
+            score,
+          true
         );
         document.getElementById("saveCtrl").style.display = "block";
         resolve(true);
