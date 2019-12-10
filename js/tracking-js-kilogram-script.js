@@ -112,7 +112,10 @@ function tracking_start() {
         )
       ];
       for (i = 0; i < 4; i++) {
-        headRow[i].sort((a, b) => a.x - b.x);
+        //headRow[i].sort((a, b) => a.x - b.x);
+        headRow[i] = headRow[i].filter(
+          data => data.x <= head_array[i].x + head_array[i].width / 2
+        );
         headRow[i] = headRow[i].slice(0, 25);
         console.log("headRow sliced only X sorted", headRow[i]);
         headRow[i].sort((a, b) => a.y - b.y);
