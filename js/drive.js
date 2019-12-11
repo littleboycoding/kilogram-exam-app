@@ -130,11 +130,13 @@ async function initList() {
 }
 
 async function saveResult() {
-  const loading = document.getElementById("loadingTOP");
-  loading.style.display = "block";
-  await updateFile("result.json", JSON.stringify(resultJSON));
+  if (studentResult) {
+    const loading = document.getElementById("loadingTOP");
+    loading.style.display = "block";
+    await updateFile("result.json", JSON.stringify(resultJSON));
 
-  loading.style.display = "none";
+    loading.style.display = "none";
+  }
   close_snapshot();
 }
 

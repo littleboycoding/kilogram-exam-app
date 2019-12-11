@@ -1,6 +1,7 @@
 var score = 0;
 var marking = [];
 var questionEndLine;
+var studentResult;
 function tracking_start() {
   return new Promise((resolve, reject) => {
     score = 0;
@@ -210,6 +211,7 @@ function tracking_start() {
       });
       if (studentList[idResult.join("")] == undefined) {
         alertMSG("ไม่พบนักเรียนจากหมายเลขประจำตัว ได้คะแนน " + score, true);
+        document.getElementById("saveCtrl").style.display = "none";
         resolve(true);
       } else {
         alertMSG(
@@ -227,6 +229,8 @@ function tracking_start() {
       idResult.length > 0;
 
       var finalJSON;
+      studentResult =
+        studentList[idResult.join("")] != undefined ? true : false;
       if (resultJSON == true || resultJSON == false) {
         resultJSON = Object.assign(
           {},
