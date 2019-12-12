@@ -6,7 +6,7 @@
     <meta name="viewport" content="initial-scale=1, width=device-width" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="viewport" content="width=device-width, user-scalable=no" />
-    <link rel="icon" href="favicon.png">
+    <link rel="icon" href="favicon.png" />
     <script
       type="text/javascript"
       src="https://apis.google.com/js/platform.js"
@@ -40,7 +40,11 @@
       <div class="alert"></div>
       <!-- Main snapshot -->
       <div onclick="snapshot();">
-        <video style="display: none;" id="player" autoplay=""></video>
+        <div
+          style="position: absolute; width: 100%; height: 100%; overflow: hidden;"
+        >
+          <video style="display: none;" id="player" autoplay=""></video>
+        </div>
         <div id="saveCtrl" style="display: none;">
           <div
             onclick="close_snapshot()"
