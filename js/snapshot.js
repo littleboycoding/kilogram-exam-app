@@ -15,14 +15,12 @@ async function snapshot() {
     let context = canvas.getContext("2d");
 
     context.drawImage(player, 0, 0);
-    if (await transform()) {
-      if (await tracking_start()) {
-        canvas.style.display = "block";
-        player.style.display = "none";
-      } else {
-        return;
-      }
+    if ((await transform()) && (await tracking_start())) {
+      canvas.style.display = "block";
+      player.style.display = "none";
     } else {
+      document.getElementById("back").style.display = "block";
+      document.getElementById("flashlight").style.display = "block";
       return;
     }
   } else {
