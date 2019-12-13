@@ -113,18 +113,25 @@ async function initList() {
   studentList = await downloadFile("student.json");
   resultJSON = await downloadFile("result.json");
   fileResult = await downloadFile("question.json");
-  for (const data in fileResult) {
-    question_list[data] = fileResult[data];
-    let select = document.getElementsByClassName("question_selection")[0];
-    select.innerHTML =
-      select.innerHTML +
-      "<div class='question_bt' onclick='lockScreen(); question_selected(\"" +
-      data +
-      "\")'>" +
-      data +
-      " - ทั้งหมด " +
-      Object.keys(fileResult[data]).length +
-      " ข้อ</div>";
+  if (Object.keys(fileResult).length > 0) {
+    for (const data in fileResult) {
+      question_list[data] = fileResult[data];
+      let select = document.getElementsByClassName("question_selection")[0];
+      select.innerHTML =
+        select.innerHTML +
+        "<div class='question_bt' onclick='lockScreen(); question_selected(\"" +
+        data +
+        "\")'>" +
+        data +
+        " - ทั้งหมด " +
+        Object.keys(fileResult[data]).length +
+        " ข้อ</div>";
+    }
+  } else {
+    let select = (document.getElementsByClassName(
+      "question_selection"
+    )[0].innerHTML =
+      "<div class='question_bt' style='border: none;'>ไม่มีการสร้างข้อสอบในบัญชีนี้</div>");
   }
   console.log(resultJSON);
 }
