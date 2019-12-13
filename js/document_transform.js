@@ -56,7 +56,8 @@ function transform() {
     console.log(approx.rows);
     if (approx.rows != 4) {
       alertMSG("ไม่เจอกระดาษ");
-      reject(false);
+      resolve(false);
+      return;
     }
 
     let cornerArray = [];

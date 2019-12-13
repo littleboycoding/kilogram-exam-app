@@ -51,7 +51,7 @@ function tracking_start() {
       });
       if (head_array.length != 4) {
         alertMSG("ไม่สามารถสแกนได้");
-        reject(false);
+        resolve(false);
         return;
       }
       head = [
@@ -115,7 +115,8 @@ function tracking_start() {
         headRow[3].length != 25
       ) {
         alertMSG("ไม่สามารถสแกนได้");
-        reject(false);
+        resolve(false);
+        return;
       }
       questionEndLine = headRow[0][24].y + headRow[0][24].height;
       var right_answer = question_list[selectedQuestion];
