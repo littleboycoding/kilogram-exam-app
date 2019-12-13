@@ -49,6 +49,11 @@ function tracking_start() {
           }
         }
       });
+      if (head_array.length != 4) {
+        alertMSG("ไม่สามารถสแกนได้");
+        reject(false);
+        return;
+      }
       head = [
         {
           x: 0,
