@@ -11,7 +11,7 @@ function tracking_start() {
     const answer = [null, "A", "B", "C", "D", "E"];
     const question_multipler = 25;
     const answer_available = 5;
-    const y_tostartfrom = (7.85 * screen.height) / 100;
+    const y_tostartfrom = (8 * screen.height) / 100;
 
     var summary = [];
     var total_mark = 0;
@@ -19,7 +19,7 @@ function tracking_start() {
 
     //Register black color to tracking.js
     tracking.ColorTracker.registerColor("black", function(r, g, b) {
-      if (r <= 135 && g <= 135 && b <= 135) {
+      if (r <= 150 && g <= 150 && b <= 150) {
         return true;
       }
       return false;
