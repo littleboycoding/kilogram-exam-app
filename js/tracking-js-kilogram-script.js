@@ -51,6 +51,7 @@ function tracking_start() {
       });
       if (head_array.length != 4) {
         alertMSG("ไม่สามารถสแกนได้");
+        console.log("Not enough head_array");
         resolve(false);
         return;
       }
@@ -115,6 +116,7 @@ function tracking_start() {
         headRow[3].length != 25
       ) {
         alertMSG("ไม่สามารถสแกนได้");
+        console.log("Not enough question total");
         resolve(false);
         return;
       }
