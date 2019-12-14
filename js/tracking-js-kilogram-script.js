@@ -51,7 +51,6 @@ function tracking_start() {
       });
       if (head_array.length != 4) {
         alertMSG("ไม่สามารถสแกนได้");
-        console.log("Not enough head_array");
         resolve(false);
         return;
       }
@@ -115,9 +114,7 @@ function tracking_start() {
         headRow[2].length != 25 ||
         headRow[3].length != 25
       ) {
-        console.log(headRow[0], headRow[1], headRow[2], headRow[3]);
         alertMSG("ไม่สามารถสแกนได้");
-        console.log("Not enough question total");
         resolve(false);
         return;
       }
@@ -167,13 +164,16 @@ function tracking_start() {
           let center_answer_y = data.y + data.height / 2;
           let result = event.data.findIndex(
             result_data =>
-              right_x > result_data.x - 3 &&
-              right_x < result_data.x + result_data.width + 5 &&
-              center_answer_y > result_data.y - 2 &&
-              center_answer_y < result_data.y + result_data.height + 2
+              right_x > result_data.x - (0.375 * screen.width) / 100 &&
+              right_x <
+                result_data.x +
+                  result_data.width +
+                  (0.625 * screen.width) / 100 &&
+              center_answer_y > result_data.y - (0.25 * screen.width) / 100 &&
+              center_answer_y <
+                result_data.y + result_data.height + (0.25 * screen.width) / 100
           );
 
-          console.log(answer_mark);
           if (result != -1 && answer_mark == 1) {
             const data = event.data[result];
             plot(data.x, data.y, data.width, data.height, "#0F0");
