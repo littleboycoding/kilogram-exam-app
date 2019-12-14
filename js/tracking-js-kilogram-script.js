@@ -81,12 +81,6 @@ function tracking_start() {
           height: head_array[3].height
         }
       ];
-      for (let i = 0; i < head.length; i++) {
-        let headHold = head[i];
-        plot(headHold.x, headHold.y, headHold.width, headHold.height, "#F00");
-        resolve(true);
-        return;
-      }
       const headRow = [
         event.data.filter(
           data =>
