@@ -115,6 +115,7 @@ function tracking_start() {
         headRow[2].length != 25 ||
         headRow[3].length != 25
       ) {
+        console.log(headRow[0], headRow[1], headRow[2], headRow[3]);
         alertMSG("ไม่สามารถสแกนได้");
         console.log("Not enough question total");
         resolve(false);
