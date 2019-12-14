@@ -167,10 +167,10 @@ function tracking_start() {
           let center_answer_y = data.y + data.height / 2;
           let result = event.data.findIndex(
             result_data =>
-              right_x > result_data.x &&
-              right_x < result_data.x + result_data.width + 3 &&
-              center_answer_y > result_data.y &&
-              center_answer_y < result_data.y + result_data.height + 3
+              right_x > result_data.x - 3 &&
+              right_x < result_data.x + result_data.width + 5 &&
+              center_answer_y > result_data.y - 3 &&
+              center_answer_y < result_data.y + result_data.height + 5
           );
 
           console.log(answer_mark);
