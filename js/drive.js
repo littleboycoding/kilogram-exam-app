@@ -64,6 +64,7 @@ function updateSigninStatus(isSignedIn) {
   if (isSignedIn) {
     dialog.style.display = "none";
     initList();
+    cameraInit();
 
     //Uncomment below line will signout
     //handleSignoutClick();

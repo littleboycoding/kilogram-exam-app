@@ -44,7 +44,7 @@ function close_snapshot() {
   }, 100);
 }
 
-function onOpenCvReady() {
+function cameraInit() {
   startCamera();
   check = setInterval(() => {
     if (cv.Mat != undefined) {

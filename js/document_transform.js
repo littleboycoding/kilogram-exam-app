@@ -1,7 +1,5 @@
 function transform() {
   return new Promise((resolve, reject) => {
-    //let screenHeight = screen.height;
-    //let screenWidth = ((screen.height / 3508) * 100 * 2480) / 100;
     let screenHeight = screen.height;
     let screenWidth = screen.width;
 
