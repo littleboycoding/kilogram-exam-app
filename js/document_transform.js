@@ -2,7 +2,7 @@ function transform() {
   return new Promise((resolve, reject) => {
     //let screenHeight = screen.height;
     //let screenWidth = ((screen.height / 3508) * 100 * 2480) / 100;
-    let screenHeight = ((screen.width / 2480) * 100 * 3508) / 100;
+    let screenHeight = screen.height;
     let screenWidth = screen.width;
 
     let img = cv.imread("canvas");
@@ -10,7 +10,7 @@ function transform() {
     let src = img.clone();
     let dst = new cv.Mat(screenHeight, screenWidth, cv.CV_8UC4);
 
-    cv.convertScaleAbs(img, img, 1.1);
+    //cv.convertScaleAbs(img, img, 1.1);
 
     cv.GaussianBlur(src, src, new cv.Size(5, 5), 0, 0);
     cv.Canny(src, src, 80, 255, 3, true);
