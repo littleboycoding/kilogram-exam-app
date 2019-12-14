@@ -1,7 +1,7 @@
 function transform() {
   return new Promise((resolve, reject) => {
-    let screenWidth = screen.width;
     let screenHeight = screen.height;
+    let screenWidth = ((screen.height / 3508) * 100 * 2480) / 100;
 
     let img = cv.imread("canvas");
     cv.cvtColor(img, img, cv.COLOR_RGBA2GRAY, 0);
