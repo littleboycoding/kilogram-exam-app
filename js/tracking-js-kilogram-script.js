@@ -11,7 +11,7 @@ function tracking_start() {
     const answer = [null, "A", "B", "C", "D", "E"];
     const question_multipler = 25;
     const answer_available = 5;
-    const y_tostartfrom = (6.25 * screen.height) / 100;
+    const y_tostartfrom = (7 * screen.height) / 100;
 
     var summary = [];
     var total_mark = 0;
