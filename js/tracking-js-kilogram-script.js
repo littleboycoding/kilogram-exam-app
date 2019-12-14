@@ -19,7 +19,7 @@ function tracking_start() {
 
     //Register black color to tracking.js
     tracking.ColorTracker.registerColor("black", function(r, g, b) {
-      if (r <= 150 && g <= 150 && b <= 150) {
+      if (r <= 135 && g <= 135 && b <= 135) {
         return true;
       }
       return false;
@@ -167,10 +167,10 @@ function tracking_start() {
           let center_answer_y = data.y + data.height / 2;
           let result = event.data.findIndex(
             result_data =>
-              right_x > result_data.x &&
-              right_x < result_data.x + result_data.width &&
-              center_answer_y > result_data.y &&
-              center_answer_y < result_data.y + result_data.height
+              right_x > result_data.x - 1 &&
+              right_x < result_data.x + result_data.width + 1 &&
+              center_answer_y > result_data.y - 1 &&
+              center_answer_y < result_data.y + result_data.height + 1
           );
 
           console.log(answer_mark);
