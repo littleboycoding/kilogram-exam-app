@@ -169,8 +169,8 @@ function tracking_start() {
             result_data =>
               right_x > result_data.x - 3 &&
               right_x < result_data.x + result_data.width + 5 &&
-              center_answer_y > result_data.y - 3 &&
-              center_answer_y < result_data.y + result_data.height + 5
+              center_answer_y > result_data.y - 2 &&
+              center_answer_y < result_data.y + result_data.height + 2
           );
 
           console.log(answer_mark);
