@@ -11,7 +11,7 @@ function tracking_start() {
     const answer = [null, "A", "B", "C", "D", "E"];
     const question_multipler = 25;
     const answer_available = 5;
-    const y_tostartfrom = (7.5 * screen.height) / 100;
+    const y_tostartfrom = (8 * screen.height) / 100;
 
     var summary = [];
     var total_mark = 0;
@@ -49,6 +49,12 @@ function tracking_start() {
           }
         }
       });
+      for (let i = 0; i < head_array.length; i++) {
+        let result = head_array[i];
+        plot(result.x, result.y, result.width, result.height, "#FF0000");
+      }
+      return;
+
       if (head_array.length != 4) {
         alertMSG("ไม่สามารถสแกนได้");
         console.log("Not enough head_array");
