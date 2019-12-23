@@ -272,7 +272,7 @@ function tracking_start() {
               [studentList[idResult.join("")].name]: {
                 totalScore: score,
                 marking: marking,
-                room: studentList[idResult.join("")]
+                room: studentList[idResult.join("")].room
               }
             }
           };
