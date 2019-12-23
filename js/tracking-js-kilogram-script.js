@@ -229,7 +229,7 @@ function tracking_start() {
           "หมายเลขนักเรียน " +
             idResult.join("") +
             " ชื่อผู้สอบ " +
-            studentList[idResult.join("")] +
+            studentList[idResult.join("")].name +
             " ได้คะแนน " +
             score,
           true
@@ -241,15 +241,16 @@ function tracking_start() {
 
       var finalJSON;
       studentResult =
-        studentList[idResult.join("")] != undefined ? true : false;
+        studentList[idResult.join("")].name != undefined ? true : false;
       if (resultJSON == true || resultJSON == false) {
         resultJSON = Object.assign(
           {},
           {
             [selectedQuestion]: {
-              [studentList[idResult.join("")]]: {
+              [studentList[idResult.join("")].name]: {
                 totalScore: score,
-                marking: marking
+                marking: marking,
+                room: studentList[idResult.join("")].room
               }
             }
           }
@@ -258,18 +259,20 @@ function tracking_start() {
         if (resultJSON[selectedQuestion] != undefined) {
           finalJSON = {
             [selectedQuestion]: Object.assign(resultJSON[selectedQuestion], {
-              [studentList[idResult.join("")]]: {
+              [studentList[idResult.join("")].name]: {
                 totalScore: score,
-                marking: marking
+                marking: marking,
+                room: studentList[idResult.join("")].room
               }
             })
           };
         } else {
           finalJSON = {
             [selectedQuestion]: {
-              [studentList[idResult.join("")]]: {
+              [studentList[idResult.join("")].name]: {
                 totalScore: score,
-                marking: marking
+                marking: marking,
+                room: studentList[idResult.join("")]
               }
             }
           };
