@@ -11,7 +11,7 @@ English
 App to be used with Kilogram Exam Desktop to do optical mark reading (OMR). 
 Start using through : https://littleboycoding.github.io/kilogram-exam-app
 
-ดูเพิ่มเติมที่ / See https://github.com/littleboycoding/kilogram-exam-desktop
+ดูเพิ่มเติมที่ / See https://github.com/littleboycoding/kilogram-exam-web
 
 ---
 
