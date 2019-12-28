@@ -60,7 +60,7 @@ function tracking_start() {
 
       console.log(head_array);
 
-      if (head_array.length != 4 || head_array.length != 2) {
+      if (head_array.length != 4 && head_array.length != 2) {
         alertMSG("ไม่สามารถสแกนได้");
         console.log("Not enough head_array");
         resolve(false);
