@@ -93,7 +93,7 @@ function tracking_start() {
             height: head_array[3].height
           }
         ];
-        const headRow = [
+        headRow = [
           event.data.filter(
             data =>
               data.x + data.width <= head[0].width &&
@@ -131,7 +131,7 @@ function tracking_start() {
             height: head_array[1].height
           }
         ];
-        const headRow = [
+        headRow = [
           event.data.filter(
             data =>
               data.x + data.width <= head[0].width &&
