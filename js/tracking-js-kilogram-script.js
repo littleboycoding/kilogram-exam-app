@@ -149,11 +149,11 @@ function tracking_start() {
         headRow[i] = headRow[i].slice(0, 25);
       }
       if (
-        (head_array.length == 4) &
+        (head_array.length == 4 &&
           (headRow[0].length != 25 ||
             headRow[1].length != 25 ||
             headRow[2].length != 25 ||
-            headRow[3].length != 25) ||
+            headRow[3].length != 25)) ||
         (head_array.length == 2 &&
           (headRow[0].length != 25 || headRow[1].length != 25))
       ) {
