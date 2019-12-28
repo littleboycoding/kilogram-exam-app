@@ -40,7 +40,13 @@ function tracking_start() {
           rect.x > 15 &&
           rect.x + rect.width < canvas.width - 15
         ) {
-          if (head_start_count < 4) {
+          if (head_start_count == 0) {
+            head_array.push(rect);
+            head_start_count++;
+          } else if (
+            rect.y + rect.height / 2 <= head_array[head_array.length - 1] &&
+            head_start_count < 4
+          ) {
             head_array.push(rect);
             head_start_count++;
           } else {
