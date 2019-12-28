@@ -60,71 +60,102 @@ function tracking_start() {
 
       console.log(head_array);
 
-      if (head_array.length != 4) {
+      if (head_array.length != 4 || head_array.length != 2) {
         alertMSG("ไม่สามารถสแกนได้");
         console.log("Not enough head_array");
         resolve(false);
         return;
       }
-      head = [
-        {
-          x: 0,
-          y: head_array[0].y,
-          width: head_array[1].x - 5,
-          height: head_array[0].height
-        },
-        {
-          x: head_array[1].x - 5,
-          y: head_array[1].y,
-          width: head_array[2].x - head_array[1].x,
-          height: head_array[1].height
-        },
-        {
-          x: head_array[2].x - 5,
-          y: head_array[2].y,
-          width: head_array[3].x - head_array[2].x,
-          height: head_array[2].height
-        },
-        {
-          x: head_array[3].x - 5,
-          y: head_array[3].y,
-          width: canvas.width,
-          height: head_array[3].height
-        }
-      ];
-      const headRow = [
-        event.data.filter(
-          data =>
-            data.x + data.width <= head[0].width &&
-            data.y > head[0].y + head[0].height
-        ),
-        event.data.filter(
-          data =>
-            data.x >= head[1].x &&
-            data.x + data.width <= head[1].x + head[1].width &&
-            data.y > head[1].y + head[1].height
-        ),
-        event.data.filter(
-          data =>
-            data.x >= head[2].x &&
-            data.x + data.width <= head[2].x + head[2].width &&
-            data.y > head[2].y + head[2].height
-        ),
-        event.data.filter(
-          data => data.x >= head[3].x && data.y > head[3].y + head[3].height
-        )
-      ];
-      for (i = 0; i < 4; i++) {
+      if (head_array.length == 4) {
+        head = [
+          {
+            x: 0,
+            y: head_array[0].y,
+            width: head_array[1].x - 5,
+            height: head_array[0].height
+          },
+          {
+            x: head_array[1].x - 5,
+            y: head_array[1].y,
+            width: head_array[2].x - head_array[1].x,
+            height: head_array[1].height
+          },
+          {
+            x: head_array[2].x - 5,
+            y: head_array[2].y,
+            width: head_array[3].x - head_array[2].x,
+            height: head_array[2].height
+          },
+          {
+            x: head_array[3].x - 5,
+            y: head_array[3].y,
+            width: canvas.width,
+            height: head_array[3].height
+          }
+        ];
+        const headRow = [
+          event.data.filter(
+            data =>
+              data.x + data.width <= head[0].width &&
+              data.y > head[0].y + head[0].height
+          ),
+          event.data.filter(
+            data =>
+              data.x >= head[1].x &&
+              data.x + data.width <= head[1].x + head[1].width &&
+              data.y > head[1].y + head[1].height
+          ),
+          event.data.filter(
+            data =>
+              data.x >= head[2].x &&
+              data.x + data.width <= head[2].x + head[2].width &&
+              data.y > head[2].y + head[2].height
+          ),
+          event.data.filter(
+            data => data.x >= head[3].x && data.y > head[3].y + head[3].height
+          )
+        ];
+      } else {
+        //For 50 question
+        head = [
+          {
+            x: 0,
+            y: head_array[0].y,
+            width: head_array[1].x - 5,
+            height: head_array[0].height
+          },
+          {
+            x: head_array[1].x - 5,
+            y: head_array[1].y,
+            width: canvas.width,
+            height: head_array[1].height
+          }
+        ];
+        const headRow = [
+          event.data.filter(
+            data =>
+              data.x + data.width <= head[0].width &&
+              data.y > head[0].y + head[0].height
+          ),
+          event.data.filter(
+            data => data.x >= head[1].x && data.y > head[1].y + head[1].height
+          )
+        ];
+      }
+      for (i = 0; i < headRow.length; i++) {
         headRow[i] = headRow[i].filter(
           data => data.x <= head_array[i].x + head_array[i].width / 2
         );
         headRow[i] = headRow[i].slice(0, 25);
       }
       if (
-        headRow[0].length != 25 ||
-        headRow[1].length != 25 ||
-        headRow[2].length != 25 ||
-        headRow[3].length != 25
+        (head_array.length == 4) &
+          (headRow[0].length != 25 ||
+            headRow[1].length != 25 ||
+            headRow[2].length != 25 ||
+            headRow[3].length != 25) ||
+        (head_array.length == 2 &&
+          (headRow[0].length != 25 || headRow[1].length != 25))
       ) {
         alertMSG("ไม่สามารถสแกนได้");
         resolve(false);
