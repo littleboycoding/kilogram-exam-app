@@ -44,7 +44,9 @@ function tracking_start() {
             head_array.push(rect);
             head_start_count++;
           } else if (
-            rect.y + rect.height / 2 <= head_array[head_array.length - 1] &&
+            rect.y + rect.height / 2 <=
+              head_array[head_array.length - 1].y +
+                head_array[head_array.length - 1].height &&
             head_start_count < 4
           ) {
             head_array.push(rect);
