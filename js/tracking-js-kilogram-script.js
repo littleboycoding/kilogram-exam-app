@@ -50,6 +50,8 @@ function tracking_start() {
         }
       });
 
+      console.log(head_array);
+
       if (head_array.length != 4) {
         alertMSG("ไม่สามารถสแกนได้");
         console.log("Not enough head_array");
