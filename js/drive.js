@@ -219,7 +219,7 @@ async function question_selected(name) {
     flashlight.style.display = "block";
     qList.style.display = "none";
     selectedQuestion = name;
-    alertClose();
+    setTimeout(() => alertClose(), 100);
   } else {
     alertMSG("มีปัญหาในการเข้าถึงกล้อง");
   }
