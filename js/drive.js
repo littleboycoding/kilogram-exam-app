@@ -64,7 +64,6 @@ function updateSigninStatus(isSignedIn) {
   if (isSignedIn) {
     dialog.style.display = "none";
     initList();
-    cameraInit();
 
     //Uncomment below line will signout
     //handleSignoutClick();
@@ -120,7 +119,7 @@ async function initList() {
       let select = document.getElementsByClassName("question_selection")[0];
       select.innerHTML =
         select.innerHTML +
-        "<div class='question_bt' onclick='lockScreen(); question_selected(\"" +
+        "<div class='question_bt' onclick='question_selected(\"" +
         data +
         "\")'>" +
         data +
@@ -220,6 +219,8 @@ async function question_selected(name) {
     flashlight.style.display = "block";
     qList.style.display = "none";
     selectedQuestion = name;
+
+    lockScreen();
   } else {
     alertMSG("มีปัญหาในการเข้าถึงกล้อง");
   }
