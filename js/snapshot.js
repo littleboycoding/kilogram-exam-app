@@ -49,10 +49,12 @@ function cameraInit() {
     startCamera()
       .then(async () => {
         await lockScreen();
+        alertMSG("กำลังเรียกใช้งานกล้อง");
         check = setInterval(() => {
           if (cv.Mat != undefined) {
             clearInterval(check);
             document.getElementById("player").style.display = "block";
+            alertClose();
             resolve(true);
           }
         }, 0.5);
