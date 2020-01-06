@@ -45,32 +45,43 @@ function close_snapshot() {
 }
 
 function cameraInit() {
-  startCamera();
-  check = setInterval(() => {
-    if (cv.Mat != undefined) {
-      clearInterval(check);
-      document.getElementById("player").style.display = "block";
-    }
-  }, 0.5);
+  return new Promise(async (resolve, reject) => {
+    startCamera()
+      .then(() => {
+        check = setInterval(() => {
+          if (cv.Mat != undefined) {
+            clearInterval(check);
+            document.getElementById("player").style.display = "block";
+            resolve(true);
+          }
+        }, 0.5);
+      })
+      .catch(() => resolve(false));
+  });
 }
 
 function startCamera() {
-  const constraints = {
-    video: {
-      facingMode: { ideal: "environment" },
-      width: screen.width > screen.height ? screen.width : screen.height,
-      height: screen.height < screen.width ? screen.height : screen.width
-    }
-  };
+  return new Promise((resolve, reject) => {
+    const constraints = {
+      video: {
+        facingMode: { ideal: "environment" },
+        width: screen.width > screen.height ? screen.width : screen.height,
+        height: screen.height < screen.width ? screen.height : screen.width
+      }
+    };
 
-  alert(screen.width, screen.height);
-  navigator.mediaDevices.getUserMedia(constraints).then(stream => {
-    player.srcObject = stream;
-    window.onresize();
+    navigator.mediaDevices
+      .getUserMedia(constraints)
+      .then(stream => {
+        player.srcObject = stream;
+        window.onresize();
 
-    track = stream.getVideoTracks()[0];
+        track = stream.getVideoTracks()[0];
 
-    imageCapture = new ImageCapture(track);
-    photoCap = imageCapture.getPhotoCapabilities();
+        imageCapture = new ImageCapture(track);
+        photoCap = imageCapture.getPhotoCapabilities();
+        resolve();
+      })
+      .catch(() => reject());
   });
 }

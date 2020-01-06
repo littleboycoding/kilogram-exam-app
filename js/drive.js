@@ -211,14 +211,18 @@ function getFileID(fileName) {
   });
 }
 
-function question_selected(name) {
-  const qList = document.getElementsByClassName("question_list")[0];
-  const back = document.getElementById("back");
-  const flashlight = document.getElementById("flashlight");
-  back.style.display = "block";
-  flashlight.style.display = "block";
-  qList.style.display = "none";
-  selectedQuestion = name;
+async function question_selected(name) {
+  if (await cameraInit()) {
+    const qList = document.getElementsByClassName("question_list")[0];
+    const back = document.getElementById("back");
+    const flashlight = document.getElementById("flashlight");
+    back.style.display = "block";
+    flashlight.style.display = "block";
+    qList.style.display = "none";
+    selectedQuestion = name;
+  } else {
+    alertMSG("มีปัญหาในการเข้าถึงกล้อง");
+  }
 }
 
 function backtoSelect() {
