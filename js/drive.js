@@ -211,7 +211,6 @@ function getFileID(fileName) {
 }
 
 async function question_selected(name) {
-  await lockScreen();
   if (await cameraInit()) {
     const qList = document.getElementsByClassName("question_list")[0];
     const back = document.getElementById("back");

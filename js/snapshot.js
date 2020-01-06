@@ -47,7 +47,8 @@ function close_snapshot() {
 function cameraInit() {
   return new Promise(async (resolve, reject) => {
     startCamera()
-      .then(() => {
+      .then(async () => {
+        await lockScreen();
         check = setInterval(() => {
           if (cv.Mat != undefined) {
             clearInterval(check);
@@ -65,8 +66,8 @@ function startCamera() {
     const constraints = {
       video: {
         facingMode: { ideal: "environment" },
-        width: screen.width > screen.height ? screen.width : screen.height,
-        height: screen.height < screen.width ? screen.height : screen.width
+        width: { ideal: 4096 },
+        height: { ideal: 2160 }
       }
     };
 
