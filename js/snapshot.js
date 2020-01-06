@@ -62,6 +62,8 @@ function startCamera() {
       height: screen.height < screen.width ? screen.height : screen.width
     }
   };
+
+  alert(screen.width, screen.height);
   navigator.mediaDevices.getUserMedia(constraints).then(stream => {
     player.srcObject = stream;
     window.onresize();
