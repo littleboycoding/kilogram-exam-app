@@ -211,6 +211,8 @@ function getFileID(fileName) {
 }
 
 async function question_selected(name) {
+  const loading = document.getElementById("loadingTOP");
+  loading.style.display = "block";
   if (await cameraInit()) {
     const qList = document.getElementsByClassName("question_list")[0];
     const back = document.getElementById("back");
@@ -219,9 +221,11 @@ async function question_selected(name) {
     flashlight.style.display = "block";
     qList.style.display = "none";
     selectedQuestion = name;
+    loading.style.display = "none";
     setTimeout(() => alertClose(), 100);
   } else {
     alertMSG("มีปัญหาในการเข้าถึงกล้อง");
+    loading.style.display = "none";
   }
 }
 
