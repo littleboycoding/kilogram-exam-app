@@ -67,8 +67,12 @@ function startCamera() {
     const constraints = {
       video: {
         facingMode: { ideal: "environment" },
-        width: screen.height > screen.width ? screen.height : screen.width,
-        height: screen.height > screen.width ? screen.width : screen.height
+        width: {
+          ideal: screen.height > screen.width ? screen.height : screen.width
+        },
+        height: {
+          ideal: screen.height > screen.width ? screen.width : screen.height
+        }
       }
     };
 
