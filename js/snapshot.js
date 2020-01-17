@@ -69,7 +69,7 @@ function startCamera() {
         facingMode: { ideal: "environment" },
         width: {
           ideal:
-            (screen.height > screen.width ? screen.height : screen.width) - 30
+            (screen.height > screen.width ? screen.height : screen.width) - 45
         },
         height: {
           ideal: screen.height > screen.width ? screen.width : screen.height
