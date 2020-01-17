@@ -68,12 +68,11 @@ function startCamera() {
       video: {
         facingMode: { ideal: "environment" },
         width: {
-          min: 270,
-          max: 270
+          ideal:
+            (screen.height > screen.width ? screen.height : screen.width) - 30
         },
         height: {
-          min: 480,
-          max: 480
+          ideal: screen.height > screen.width ? screen.width : screen.height
         }
       }
     };
