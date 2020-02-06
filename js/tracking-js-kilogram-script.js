@@ -24,15 +24,8 @@ function tracking_start() {
       }
       return false;
     });
-    //Register grey color to tracking.js
-    tracking.ColorTracker.registerColor("grey", function(r, g, b) {
-      if (r > 135 && g > 135 && b > 135 && r <= 200 && g <= 200 && b <= 200) {
-        return true;
-      }
-      return false;
-    });
 
-    const tracker = new tracking.ColorTracker(["black", "grey"]);
+    const tracker = new tracking.ColorTracker(["black"]);
     tracker.setMinDimension(3);
     tracker.setMinGroupSize(20);
 
@@ -42,30 +35,25 @@ function tracking_start() {
       let head_start_count = 0;
       let head_array = [];
       event.data.forEach(function(rect) {
-        if (rect.color == "grey") {
-          plot(rect.x, rect.y, rect.width, rect.height, "#000");
-        }
-        if (rect.color == "black") {
-          if (
-            rect.y > y_tostartfrom &&
-            rect.x > 15 &&
-            rect.x + rect.width < canvas.width - 15
+        if (
+          rect.y > y_tostartfrom &&
+          rect.x > 15 &&
+          rect.x + rect.width < canvas.width - 15
+        ) {
+          if (head_start_count == 0) {
+            head_array.push(rect);
+            head_start_count++;
+          } else if (
+            rect.y + rect.height / 2 <=
+              head_array[head_array.length - 1].y +
+                head_array[head_array.length - 1].height &&
+            head_start_count < 4
           ) {
-            if (head_start_count == 0) {
-              head_array.push(rect);
-              head_start_count++;
-            } else if (
-              rect.y + rect.height / 2 <=
-                head_array[head_array.length - 1].y +
-                  head_array[head_array.length - 1].height &&
-              head_start_count < 4
-            ) {
-              head_array.push(rect);
-              head_start_count++;
-            } else {
-              head_array.sort((a, b) => a.x - b.x);
-              return;
-            }
+            head_array.push(rect);
+            head_start_count++;
+          } else {
+            head_array.sort((a, b) => a.x - b.x);
+            return;
           }
         }
       });
