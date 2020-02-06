@@ -3,6 +3,7 @@ var marking = [];
 var questionEndLine;
 var studentResult;
 var studentScore = {};
+var markHolder = [];
 function tracking_start() {
   return new Promise((resolve, reject) => {
     score = 0;
@@ -220,7 +221,13 @@ function tracking_start() {
 
           if (result != -1 && answer_mark == 1) {
             const data = event.data[result];
-            plot(data.x, data.y, data.width, data.height, "#0F0");
+            markHolder.push({
+              x: data.x,
+              y: data.y,
+              width: data.width,
+              height: data.height,
+              color: "#0F0"
+            });
             score++;
           } else {
             /*
@@ -275,9 +282,12 @@ function tracking_start() {
         typeof studentScore[selectedQuestion][idResult.join("")] == "undefined"
       ) {
         Object.assign(studentScore[selectedQuestion], {
-          [idResult.join("")]: score
+          [idResult.join("")]: { score: score, marking: markHolder }
         });
       }
+      studentScore[selectedQuestion][idResult.join("")].marking.forEach(mark =>
+        plot(mark.x, mark.y, mark.width, mark.height, mark.color)
+      );
       if (studentList[idResult.join("")] == undefined) {
         alertMSG(
           "ไม่พบนักเรียนจากหมายเลขประจำตัว ได้คะแนน " +
