@@ -267,9 +267,17 @@ function tracking_start() {
         plot(data.x, data.y, data.width, data.height, "#F00");
         idResult.push(result);
       });
-      Object.assign(studentScore, {
-        [selectedQuestion]: { [idResult.join("")]: score }
-      });
+      if (typeof studentScore[selectedQuestion] == "undefined") {
+        studentScore[selectedQuestion] = {};
+      }
+
+      if (
+        typeof studentScore[selectedQuestion][idResult.join("")] == "undefined"
+      ) {
+        Object.assign(studentScore[selectedQuestion], {
+          [idResult.join("")]: score
+        });
+      }
       if (studentList[idResult.join("")] == undefined) {
         alertMSG(
           "ไม่พบนักเรียนจากหมายเลขประจำตัว ได้คะแนน " +

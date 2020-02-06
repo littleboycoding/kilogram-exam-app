@@ -230,6 +230,7 @@ async function question_selected(name) {
 }
 
 function backtoSelect() {
+  studentScore = {};
   const qList = document.getElementsByClassName("question_list")[0];
   qList.style.display = "block";
   const back = document.getElementById("back");
