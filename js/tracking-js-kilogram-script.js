@@ -285,13 +285,13 @@ function tracking_start() {
           [idResult.join("")]: { score: score, marking: markHolder }
         });
       }
-      studentScore[selectedQuestion][idResult.join("")].marking.forEach(mark =>
-        plot(mark.x, mark.y, mark.width, mark.height, mark.color)
+      studentScore[selectedQuestion][idResult.join("")]["marking"].forEach(
+        mark => plot(mark.x, mark.y, mark.width, mark.height, mark.color)
       );
       if (studentList[idResult.join("")] == undefined) {
         alertMSG(
           "ไม่พบนักเรียนจากหมายเลขประจำตัว ได้คะแนน " +
-            studentScore[selectedQuestion][idResult.join("")],
+            studentScore[selectedQuestion][idResult.join("")]["score"],
           true
         );
         document.getElementById("saveCtrl").style.display = "none";
@@ -303,7 +303,7 @@ function tracking_start() {
             " ชื่อผู้สอบ " +
             studentList[idResult.join("")].name +
             " ได้คะแนน " +
-            studentScore[selectedQuestion][idResult.join("")],
+            studentScore[selectedQuestion][idResult.join("")]["score"],
           true
         );
         document.getElementById("saveCtrl").style.display = "block";
@@ -320,7 +320,8 @@ function tracking_start() {
           {
             [selectedQuestion]: {
               [studentList[idResult.join("")].name]: {
-                totalScore: studentScore[selectedQuestion][idResult.join("")],
+                totalScore:
+                  studentScore[selectedQuestion][idResult.join("")]["score"],
                 marking: marking,
                 room: studentList[idResult.join("")].room
               }
@@ -332,7 +333,8 @@ function tracking_start() {
           finalJSON = {
             [selectedQuestion]: Object.assign(resultJSON[selectedQuestion], {
               [studentList[idResult.join("")].name]: {
-                totalScore: studentScore[selectedQuestion][idResult.join("")],
+                totalScore:
+                  studentScore[selectedQuestion][idResult.join("")]["score"],
                 marking: marking,
                 room: studentList[idResult.join("")].room
               }
@@ -342,7 +344,8 @@ function tracking_start() {
           finalJSON = {
             [selectedQuestion]: {
               [studentList[idResult.join("")].name]: {
-                totalScore: studentScore[selectedQuestion][idResult.join("")],
+                totalScore:
+                  studentScore[selectedQuestion][idResult.join("")]["score"],
                 marking: marking,
                 room: studentList[idResult.join("")].room
               }
