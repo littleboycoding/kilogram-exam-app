@@ -2,6 +2,7 @@ var score = 0;
 var marking = [];
 var questionEndLine;
 var studentResult;
+var studentScore = {};
 function tracking_start() {
   return new Promise((resolve, reject) => {
     score = 0;
@@ -249,6 +250,11 @@ function tracking_start() {
       });
       idRow.shift();
       idRow.sort((a, b) => a.x - b.x);
+      if (idRow.length > 20) {
+        resolve(false);
+        alertMSG("ไม่สามารถสแกนได้");
+        return;
+      }
       let idHead = idRow.slice(0, 10);
       idHead.sort((a, b) => a.y - b.y);
       let idFill = idRow.slice(10, 20);
@@ -261,8 +267,15 @@ function tracking_start() {
         plot(data.x, data.y, data.width, data.height, "#F00");
         idResult.push(result);
       });
+      Object.assign(studentScore, {
+        [selectedQuestion]: { [idResult.join("")]: score }
+      });
       if (studentList[idResult.join("")] == undefined) {
-        alertMSG("ไม่พบนักเรียนจากหมายเลขประจำตัว ได้คะแนน " + score, true);
+        alertMSG(
+          "ไม่พบนักเรียนจากหมายเลขประจำตัว ได้คะแนน " +
+            studentScore[selectedQuestion][idResult.join("")],
+          true
+        );
         document.getElementById("saveCtrl").style.display = "none";
         resolve(true);
       } else {
@@ -272,7 +285,7 @@ function tracking_start() {
             " ชื่อผู้สอบ " +
             studentList[idResult.join("")].name +
             " ได้คะแนน " +
-            score,
+            studentScore[selectedQuestion][idResult.join("")],
           true
         );
         document.getElementById("saveCtrl").style.display = "block";
@@ -289,7 +302,7 @@ function tracking_start() {
           {
             [selectedQuestion]: {
               [studentList[idResult.join("")].name]: {
-                totalScore: score,
+                totalScore: studentScore[selectedQuestion][idResult.join("")],
                 marking: marking,
                 room: studentList[idResult.join("")].room
               }
@@ -301,7 +314,7 @@ function tracking_start() {
           finalJSON = {
             [selectedQuestion]: Object.assign(resultJSON[selectedQuestion], {
               [studentList[idResult.join("")].name]: {
-                totalScore: score,
+                totalScore: studentScore[selectedQuestion][idResult.join("")],
                 marking: marking,
                 room: studentList[idResult.join("")].room
               }
@@ -311,7 +324,7 @@ function tracking_start() {
           finalJSON = {
             [selectedQuestion]: {
               [studentList[idResult.join("")].name]: {
-                totalScore: score,
+                totalScore: studentScore[selectedQuestion][idResult.join("")],
                 marking: marking,
                 room: studentList[idResult.join("")].room
               }
