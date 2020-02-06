@@ -285,6 +285,7 @@ function tracking_start() {
           [idResult.join("")]: { score: score, marking: markHolder }
         });
       }
+      markHolder = [];
       studentScore[selectedQuestion][idResult.join("")]["marking"].forEach(
         mark => plot(mark.x, mark.y, mark.width, mark.height, mark.color)
       );
