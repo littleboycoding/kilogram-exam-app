@@ -251,11 +251,13 @@ function tracking_start() {
       let idRow = [];
       let studentId;
       event.data.forEach(data => {
-        if (data.y > questionEndLine) {
+        if (data.y > questionEndLine && data.width <= 100) {
           idRow.push(data);
         }
       });
-      idRow.shift();
+      if (idRow.length > 20) {
+        idRow.shift();
+      }
       idRow.sort((a, b) => a.x - b.x);
       if (idRow.length > 20) {
         resolve(false);
@@ -265,6 +267,7 @@ function tracking_start() {
       let idHead = idRow.slice(0, 10);
       idHead.sort((a, b) => a.y - b.y);
       let idFill = idRow.slice(10, 20);
+      console.log(idHead, idFill);
       let idResult = [];
       idFill.forEach(data => {
         const y_center = data.y + data.height / 2;
