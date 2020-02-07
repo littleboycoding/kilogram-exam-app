@@ -255,9 +255,7 @@ function tracking_start() {
           idRow.push(data);
         }
       });
-      if (idRow.length > 20) {
         idRow.shift();
-      }
       idRow.sort((a, b) => a.x - b.x);
       if (idRow.length > 20) {
         resolve(false);
