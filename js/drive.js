@@ -21,7 +21,7 @@ var drive;
 var question_list = {};
 var studentList;
 // true = continues, false = normal
-var mode = true;
+var mode = false;
 
 /**
  *  On load, called to load the auth2 library and API client library.
