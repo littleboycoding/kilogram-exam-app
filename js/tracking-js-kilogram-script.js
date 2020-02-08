@@ -297,8 +297,8 @@ function tracking_start() {
       } else {
         document.getElementById("saveCtrl").style.display = "block";
         if (mode) {
-          document.getElementById("canvas").style.display = "none";
           document.getElementById("yes").click();
+          close_snapshot();
         }
         alertMSG(
           "หมายเลขนักเรียน " +
