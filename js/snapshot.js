@@ -21,6 +21,7 @@ async function snapshot() {
     } else {
       document.getElementById("back").style.display = "block";
       document.getElementById("flashlight").style.display = "block";
+      document.getElementById("mode").style.display = "block";
       return;
     }
   } else {
@@ -37,6 +38,7 @@ function close_snapshot() {
     player.style.display = "block";
 
     document.getElementById("back").style.display = "block";
+    document.getElementById("mode").style.display = "block";
     document.getElementById("flashlight").style.display = "block";
 
     document.getElementById("saveCtrl").style.display = "none";
