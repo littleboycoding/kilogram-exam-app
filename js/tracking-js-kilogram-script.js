@@ -7,6 +7,7 @@ var markHolder = [];
 function tracking_start() {
   return new Promise((resolve, reject) => {
     score = 0;
+    marking = [];
     const canvas = document.getElementById("canvas");
     const context = canvas.getContext("2d");
     const container = document.querySelector(".container");
