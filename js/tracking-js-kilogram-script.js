@@ -284,15 +284,15 @@ function tracking_start() {
       }
       markHolder = [];
       if (studentList[idResult.join("")] == undefined) {
+        document.getElementById("saveCtrl").style.display = "none";
+        if (mode) {
+          close_snapshot();
+        }
         alertMSG(
           "ไม่พบนักเรียนจากหมายเลขประจำตัว ได้คะแนน " +
             studentScore[selectedQuestion][idResult.join("")]["score"],
           true
         );
-        document.getElementById("saveCtrl").style.display = "none";
-        if (mode) {
-          close_snapshot();
-        }
         resolve(true);
       } else {
         document.getElementById("saveCtrl").style.display = "block";
