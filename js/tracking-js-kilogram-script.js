@@ -289,7 +289,9 @@ function tracking_start() {
           true
         );
         document.getElementById("saveCtrl").style.display = "none";
-        close_snapshot();
+        if (mode) {
+          close_snapshot();
+        }
         resolve(true);
       } else {
         alertMSG(
