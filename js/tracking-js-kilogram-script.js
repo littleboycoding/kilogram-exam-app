@@ -306,16 +306,6 @@ function tracking_start() {
         document.getElementById("saveCtrl").style.display = "block";
         if (mode) {
           document.getElementById("yes").click();
-          close_snapshot();
-          alertMSG(
-            "หมายเลขนักเรียน " +
-              idResult.join("") +
-              " ชื่อผู้สอบ " +
-              studentList[idResult.join("")].name +
-              " ได้คะแนน " +
-              studentScore[selectedQuestion][idResult.join("")]["score"],
-            true
-          );
         }
         resolve(true);
       }
