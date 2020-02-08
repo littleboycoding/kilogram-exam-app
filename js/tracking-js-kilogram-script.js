@@ -222,13 +222,7 @@ function tracking_start() {
 
           if (result != -1 && answer_mark == 1) {
             const data = event.data[result];
-            markHolder.push({
-              x: data.x,
-              y: data.y,
-              width: data.width,
-              height: data.height,
-              color: "#0F0"
-            });
+            plot(data.x, data.y, data.width, data.height, "#0F0");
             score++;
           } else {
             /*
@@ -288,9 +282,6 @@ function tracking_start() {
         });
       }
       markHolder = [];
-      studentScore[selectedQuestion][idResult.join("")]["marking"].forEach(
-        mark => plot(mark.x, mark.y, mark.width, mark.height, mark.color)
-      );
       if (studentList[idResult.join("")] == undefined) {
         alertMSG(
           "ไม่พบนักเรียนจากหมายเลขประจำตัว ได้คะแนน " +
@@ -298,6 +289,7 @@ function tracking_start() {
           true
         );
         document.getElementById("saveCtrl").style.display = "none";
+        close_snapshot();
         resolve(true);
       } else {
         alertMSG(
@@ -310,6 +302,9 @@ function tracking_start() {
           true
         );
         document.getElementById("saveCtrl").style.display = "block";
+        if (mode) {
+          document.getElementById("yes").click();
+        }
         resolve(true);
       }
       idResult.length > 0;

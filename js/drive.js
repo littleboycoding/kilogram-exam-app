@@ -245,6 +245,9 @@ function backtoSelect() {
   flashlight.style.display = "none";
 }
 
-function modeChange() {
+function modeChange(event) {
   mode = !mode;
+  document.getElementById("mode").innerHTML = mode
+    ? "โหมดต่อเนื่อง"
+    : "โหมดตรวจทาน";
 }
