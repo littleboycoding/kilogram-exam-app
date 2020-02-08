@@ -283,55 +283,6 @@ function tracking_start() {
         });
       }
       markHolder = [];
-
-      var finalJSON;
-      studentResult =
-        studentList[idResult.join("")].name != undefined ? true : false;
-      if (resultJSON == true || resultJSON == false) {
-        resultJSON = Object.assign(
-          {},
-          {
-            [selectedQuestion]: {
-              [studentList[idResult.join("")].name]: {
-                totalScore: mode
-                  ? studentScore[selectedQuestion][idResult.join("")]["score"]
-                  : score,
-                marking: marking,
-                room: studentList[idResult.join("")].room
-              }
-            }
-          }
-        );
-      } else {
-        if (resultJSON[selectedQuestion] != undefined) {
-          finalJSON = {
-            [selectedQuestion]: Object.assign(resultJSON[selectedQuestion], {
-              [studentList[idResult.join("")].name]: {
-                totalScore: mode
-                  ? studentScore[selectedQuestion][idResult.join("")]["score"]
-                  : score,
-                marking: marking,
-                room: studentList[idResult.join("")].room
-              }
-            })
-          };
-        } else {
-          finalJSON = {
-            [selectedQuestion]: {
-              [studentList[idResult.join("")].name]: {
-                totalScore: mode
-                  ? studentScore[selectedQuestion][idResult.join("")]["score"]
-                  : score,
-
-                marking: marking,
-                room: studentList[idResult.join("")].room
-              }
-            }
-          };
-        }
-      }
-      Object.assign(resultJSON, finalJSON);
-
       if (studentList[idResult.join("")] == undefined) {
         document.getElementById("saveCtrl").style.display = "none";
         if (mode) {
@@ -346,6 +297,63 @@ function tracking_start() {
       } else {
         document.getElementById("saveCtrl").style.display = "block";
         if (mode) {
+          var finalJSON;
+          studentResult =
+            studentList[idResult.join("")].name != undefined ? true : false;
+          if (resultJSON == true || resultJSON == false) {
+            resultJSON = Object.assign(
+              {},
+              {
+                [selectedQuestion]: {
+                  [studentList[idResult.join("")].name]: {
+                    totalScore: mode
+                      ? studentScore[selectedQuestion][idResult.join("")][
+                          "score"
+                        ]
+                      : score,
+                    marking: marking,
+                    room: studentList[idResult.join("")].room
+                  }
+                }
+              }
+            );
+          } else {
+            if (resultJSON[selectedQuestion] != undefined) {
+              finalJSON = {
+                [selectedQuestion]: Object.assign(
+                  resultJSON[selectedQuestion],
+                  {
+                    [studentList[idResult.join("")].name]: {
+                      totalScore: mode
+                        ? studentScore[selectedQuestion][idResult.join("")][
+                            "score"
+                          ]
+                        : score,
+                      marking: marking,
+                      room: studentList[idResult.join("")].room
+                    }
+                  }
+                )
+              };
+            } else {
+              finalJSON = {
+                [selectedQuestion]: {
+                  [studentList[idResult.join("")].name]: {
+                    totalScore: mode
+                      ? studentScore[selectedQuestion][idResult.join("")][
+                          "score"
+                        ]
+                      : score,
+
+                    marking: marking,
+                    room: studentList[idResult.join("")].room
+                  }
+                }
+              };
+            }
+          }
+          Object.assign(resultJSON, finalJSON);
+
           document.getElementById("yes").click();
           close_snapshot();
         }
