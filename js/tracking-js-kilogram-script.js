@@ -306,6 +306,7 @@ function tracking_start() {
         document.getElementById("saveCtrl").style.display = "block";
         if (mode) {
           document.getElementById("yes").click();
+          close_snapshot();
         }
         resolve(true);
       }
