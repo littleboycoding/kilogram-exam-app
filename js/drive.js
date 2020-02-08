@@ -20,6 +20,8 @@ var authorizeButton = document.getElementsByClassName("g-signin")[0];
 var drive;
 var question_list = {};
 var studentList;
+// true = continues, false = normal
+var mode = true;
 
 /**
  *  On load, called to load the auth2 library and API client library.
@@ -216,9 +218,11 @@ async function question_selected(name) {
   if (await cameraInit()) {
     const qList = document.getElementsByClassName("question_list")[0];
     const back = document.getElementById("back");
+    const mode = document.getElementById("mode");
     const flashlight = document.getElementById("flashlight");
     back.style.display = "block";
     flashlight.style.display = "block";
+    mode.style.display = "block";
     qList.style.display = "none";
     selectedQuestion = name;
     loading.style.display = "none";
@@ -235,6 +239,12 @@ function backtoSelect() {
   qList.style.display = "block";
   const back = document.getElementById("back");
   back.style.display = "none";
+  const mode = document.getElementById("mode");
+  mode.style.display = "none";
   const flashlight = document.getElementById("flashlight");
   flashlight.style.display = "none";
+}
+
+function modeChange() {
+  mode = !mode;
 }
