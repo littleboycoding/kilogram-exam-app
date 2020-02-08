@@ -283,35 +283,6 @@ function tracking_start() {
         });
       }
       markHolder = [];
-      if (studentList[idResult.join("")] == undefined) {
-        document.getElementById("saveCtrl").style.display = "none";
-        if (mode) {
-          close_snapshot();
-        }
-        alertMSG(
-          "ไม่พบนักเรียนจากหมายเลขประจำตัว ได้คะแนน " +
-            studentScore[selectedQuestion][idResult.join("")]["score"],
-          true
-        );
-        resolve(true);
-      } else {
-        document.getElementById("saveCtrl").style.display = "block";
-        if (mode) {
-          document.getElementById("yes").click();
-          close_snapshot();
-        }
-        alertMSG(
-          "หมายเลขนักเรียน " +
-            idResult.join("") +
-            " ชื่อผู้สอบ " +
-            studentList[idResult.join("")].name +
-            " ได้คะแนน " +
-            studentScore[selectedQuestion][idResult.join("")]["score"],
-          true
-        );
-        resolve(true);
-      }
-      idResult.length > 0;
 
       var finalJSON;
       studentResult =
@@ -360,6 +331,36 @@ function tracking_start() {
         }
       }
       Object.assign(resultJSON, finalJSON);
+
+      if (studentList[idResult.join("")] == undefined) {
+        document.getElementById("saveCtrl").style.display = "none";
+        if (mode) {
+          close_snapshot();
+        }
+        alertMSG(
+          "ไม่พบนักเรียนจากหมายเลขประจำตัว ได้คะแนน " +
+            studentScore[selectedQuestion][idResult.join("")]["score"],
+          true
+        );
+        resolve(true);
+      } else {
+        document.getElementById("saveCtrl").style.display = "block";
+        if (mode) {
+          document.getElementById("yes").click();
+          close_snapshot();
+        }
+        alertMSG(
+          "หมายเลขนักเรียน " +
+            idResult.join("") +
+            " ชื่อผู้สอบ " +
+            studentList[idResult.join("")].name +
+            " ได้คะแนน " +
+            studentScore[selectedQuestion][idResult.join("")]["score"],
+          true
+        );
+        resolve(true);
+      }
+      idResult.length > 0;
     });
 
     tracking.track(canvas, tracker);
