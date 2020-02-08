@@ -295,6 +295,11 @@ function tracking_start() {
         }
         resolve(true);
       } else {
+        document.getElementById("saveCtrl").style.display = "block";
+        if (mode) {
+          document.getElementById("canvas").style.display = "none";
+          document.getElementById("yes").click();
+        }
         alertMSG(
           "หมายเลขนักเรียน " +
             idResult.join("") +
@@ -304,10 +309,6 @@ function tracking_start() {
             studentScore[selectedQuestion][idResult.join("")]["score"],
           true
         );
-        document.getElementById("saveCtrl").style.display = "block";
-        if (mode) {
-          document.getElementById("yes").click();
-        }
         resolve(true);
       }
       idResult.length > 0;
@@ -321,8 +322,9 @@ function tracking_start() {
           {
             [selectedQuestion]: {
               [studentList[idResult.join("")].name]: {
-                totalScore:
-                  studentScore[selectedQuestion][idResult.join("")]["score"],
+                totalScore: mode
+                  ? studentScore[selectedQuestion][idResult.join("")]["score"]
+                  : score,
                 marking: marking,
                 room: studentList[idResult.join("")].room
               }
@@ -334,8 +336,9 @@ function tracking_start() {
           finalJSON = {
             [selectedQuestion]: Object.assign(resultJSON[selectedQuestion], {
               [studentList[idResult.join("")].name]: {
-                totalScore:
-                  studentScore[selectedQuestion][idResult.join("")]["score"],
+                totalScore: mode
+                  ? studentScore[selectedQuestion][idResult.join("")]["score"]
+                  : score,
                 marking: marking,
                 room: studentList[idResult.join("")].room
               }
@@ -345,8 +348,10 @@ function tracking_start() {
           finalJSON = {
             [selectedQuestion]: {
               [studentList[idResult.join("")].name]: {
-                totalScore:
-                  studentScore[selectedQuestion][idResult.join("")]["score"],
+                totalScore: mode
+                  ? studentScore[selectedQuestion][idResult.join("")]["score"]
+                  : score,
+
                 marking: marking,
                 room: studentList[idResult.join("")].room
               }
