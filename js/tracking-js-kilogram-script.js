@@ -33,6 +33,7 @@ function tracking_start() {
 
     tracker.on("track", async function(event) {
       document.getElementById("back").style.display = "none";
+      document.getElementById("mode").style.display = "none";
       document.getElementById("flashlight").style.display = "none";
       let head_start_count = 0;
       let head_array = [];
@@ -255,7 +256,7 @@ function tracking_start() {
           idRow.push(data);
         }
       });
-        idRow.shift();
+      idRow.shift();
       idRow.sort((a, b) => a.x - b.x);
       if (idRow.length > 20) {
         resolve(false);
